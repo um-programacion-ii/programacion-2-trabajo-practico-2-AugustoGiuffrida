@@ -1,4 +1,4 @@
-package src.Modelos;
+package src.modelos;
 import java.time.LocalDate;
 
 public abstract class RecursoDigital {
