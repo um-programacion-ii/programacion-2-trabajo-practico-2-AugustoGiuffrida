@@ -1,4 +1,4 @@
-package src.Modelos;
+package src.modelos;
 
 public class Usuario {
     private String nombre;
@@ -6,9 +6,9 @@ public class Usuario {
     private String email;
 
     public Usuario(String nombre, int edad, String email){
-        this.nombre = nombre;
-        this.edad = edad;
-        this.email = email;
+        setNombre(nombre);
+        setEdad(edad);
+        setEmail(email);
     }
 
     //getters
