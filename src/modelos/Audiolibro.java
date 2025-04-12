@@ -6,8 +6,8 @@ public class Audiolibro extends RecursoDigital {
 
     public Audiolibro(String titulo, String autor, int anioPublicacion, boolean disponible, String formatoAudio, String idioma){
         super(titulo, autor, anioPublicacion, disponible);
-        this.formatoAudio = formatoAudio;
-        this.idioma =idioma;
+        setFormatoAudio(formatoAudio);
+        setIdioma(idioma);
     }
 
     //getters

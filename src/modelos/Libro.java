@@ -7,7 +7,7 @@ public class Libro extends RecursoDigital{
     public Libro(String titulo, String autor, int anioPublicacion, boolean disponible, int isbn, String genero){
         super(titulo, autor, anioPublicacion, disponible);
         this.isbn = isbn;
-        this.genero =genero;
+        setGenero(genero);
     }
 
     //getters
