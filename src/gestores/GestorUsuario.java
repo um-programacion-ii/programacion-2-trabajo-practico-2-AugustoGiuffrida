@@ -25,8 +25,7 @@ public class GestorUsuario {
                 String nombre = scanner.nextLine();
 
                 System.out.print("Ingrese edad: ");
-                int edad = scanner.nextInt();
-                scanner.nextLine();
+                String edad = scanner.nextLine();
 
                 System.out.print("Ingrese email: ");
                 String email = scanner.nextLine();
@@ -35,7 +34,7 @@ public class GestorUsuario {
                 usuarios.add(usuario);
             } catch (IllegalArgumentException error){
                 System.out.print("Error al agregar usuario: "+error.getMessage());
-                System.out.println("Por favor, reintente con los datos correctos.\n");
+                System.out.println("\nPor favor, reintente con los datos correctos.\n");
                 i--;
             }
         }
