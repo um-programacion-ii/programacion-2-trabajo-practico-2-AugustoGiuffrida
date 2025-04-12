@@ -7,9 +7,9 @@ public abstract class RecursoDigital {
     protected int anioPublicacion;
 
     public RecursoDigital (String titulo, String autor, int anioPublicacion){
-        this.titulo = titulo;
-        this.autor = autor;
-        this.anioPublicacion = anioPublicacion;
+        setTitulo(titulo);
+        setAutor(autor);
+        setAnioPublicacion(anioPublicacion);
     }
 
     //getters
@@ -47,4 +47,10 @@ public abstract class RecursoDigital {
         }
         this.anioPublicacion = anioPublicacion;
     }
+
+    @Override
+    public String toString() {
+        return "Recurso: " + titulo + " | autor: " + autor + " | anioPublicacion: " + anioPublicacion;
+    }
+
 }
