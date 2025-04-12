@@ -15,7 +15,7 @@ public class GestorUsuario {
     public void anadirUsuario(){
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("¿Cuantos usuarios quiere añadir?");
+        System.out.print("¿Cuantos usuarios quiere añadir? ");
         int cont = scanner.nextInt();
         scanner.nextLine();
 
