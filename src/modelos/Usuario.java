@@ -2,10 +2,10 @@ package src.modelos;
 
 public class Usuario {
     private String nombre;
-    private int edad;
+    private String edad;
     private String email;
 
-    public Usuario(String nombre, int edad, String email){
+    public Usuario(String nombre, String edad, String email){
         setNombre(nombre);
         setEdad(edad);
         setEmail(email);
@@ -16,7 +16,7 @@ public class Usuario {
         return this.nombre;
     }
 
-    public int getEdad(){
+    public String getEdad(){
         return this.edad;
     }
 
@@ -32,10 +32,20 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public void setEdad(int edad){
-        if (edad <0){
-            throw new IllegalArgumentException("La edad no puede ser negativa");
+    public void setEdad(String edad){
+        if (edad == null || edad.trim().isEmpty()) {
+            throw new IllegalArgumentException("La edad no puede estar vacía");
         }
+
+        try {
+            int edadNumerica = Integer.parseInt(edad);
+            if (edadNumerica < 0) {
+                throw new IllegalArgumentException("La edad no puede ser negativa");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("La edad debe ser un número válido");
+        }
+
         this.edad = edad;
     }
 

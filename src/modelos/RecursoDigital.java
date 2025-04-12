@@ -1,31 +1,51 @@
 package src.modelos;
+import src.interfaces.IRecursoDigital;
+
 import java.time.LocalDate;
 
-public abstract class RecursoDigital {
+public abstract class RecursoDigital implements IRecursoDigital {
     protected String titulo;
     protected String autor;
     protected int anioPublicacion;
+    protected boolean disponible;
 
-    public RecursoDigital (String titulo, String autor, int anioPublicacion){
+    public RecursoDigital (String titulo, String autor, int anioPublicacion, boolean disponible){
         setTitulo(titulo);
         setAutor(autor);
         setAnioPublicacion(anioPublicacion);
+        this.disponible = disponible;
     }
 
-    //getters
+    @Override
     public String getTitulo(){
         return this.titulo;
     }
 
+    @Override
     public String getAutor(){
         return this.autor;
     }
 
+    @Override
     public int getAnioPublicacion(){
         return this.anioPublicacion;
     }
 
-    //setters
+    @Override
+    public void marcarComoPrestado() {
+        disponible = false;
+    }
+
+    @Override
+    public void marcarComoDisponible() {
+        disponible = true;
+    }
+
+    @Override
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
+
     public void setTitulo(String titulo){
         if (titulo == null || titulo.trim().isEmpty()){
             throw new IllegalArgumentException("El titulo no puede estar vacio");
