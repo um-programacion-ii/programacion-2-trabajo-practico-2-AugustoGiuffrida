@@ -1,7 +1,8 @@
 package src.gestores;
 
+import src.interfaces.Prestable;
+import src.interfaces.Renovable;
 import src.modelos.RecursoDigital;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -29,6 +30,38 @@ public class GestorRecursos {
             System.out.println("- " + recurso);
         }
     }
+
+    public void mostrarRecursosFiltrados(String titulo, String tipo){
+        if (recursoDigital.isEmpty()) {
+            System.out.println("No hay recursos disponibles.");
+            return;
+        }
+
+        System.out.println("\n==== "+titulo+" ====");
+        boolean encontrado = false;
+
+        for (RecursoDigital recurso : recursoDigital) {
+            if (tipo.equals("prestable") && recurso instanceof Prestable){
+                System.out.println("- " + recurso);
+                encontrado = true;
+            } else if (tipo.equals("renovable") && recurso instanceof Renovable && ((Renovable) recurso).permiteRenovacion()){
+                System.out.println("- " + recurso);
+                encontrado = true;
+            }
+        }
+        if (!encontrado){
+            System.out.println("No se encontraron recursos que cumplan con el criterio.");
+        }
+    }
+
+    public void filtrarPrestables(){
+        mostrarRecursosFiltrados("Lista de Recursos Prestables","prestable");
+    }
+
+    public void filtrarRenovables(){
+        mostrarRecursosFiltrados("Lista de Recursos Renovables","renovable");
+    }
+
 
     public void eliminarRecurso(){
         Scanner scanner = new Scanner(System.in);
