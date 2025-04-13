@@ -1,6 +1,7 @@
 package src.gestores;
 import src.modelos.Usuario;
 
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -23,18 +24,27 @@ public class GestorUsuario {
             try {
                 System.out.print("Ingrese nombre: ");
                 String nombre = scanner.nextLine();
+                if (nombre == null || nombre.trim().isEmpty()){
+                    throw new IllegalArgumentException("El nombre no puede estar vacio");
+                }
 
                 System.out.print("Ingrese edad: ");
-                String edad = scanner.nextLine();
-
+                Integer edad = scanner.nextInt();
+                if (edad < 0) {
+                    throw new IllegalArgumentException("La edad debe ser un numero entero");
+                }
+                scanner.nextLine();
                 System.out.print("Ingrese email: ");
                 String email = scanner.nextLine();
 
                 Usuario usuario = new Usuario(nombre, edad, email);
                 usuarios.add(usuario);
-            } catch (IllegalArgumentException error){
-                System.out.print("Error al agregar usuario: "+error.getMessage());
+            } catch (IllegalArgumentException error) {
+                System.out.print("Error al agregar usuario: " + error.getMessage());
                 System.out.println("\nPor favor, reintente con los datos correctos.\n");
+                i--;
+            } catch (InputMismatchException error){
+                System.out.print("Error, la entrada es invalida.");
                 i--;
             }
         }
