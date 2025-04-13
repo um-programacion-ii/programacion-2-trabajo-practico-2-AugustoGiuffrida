@@ -1,8 +1,8 @@
 package src.modelos;
-
+import src.interfaces.Prestable;
 import java.util.Scanner;
 
-public class Revista extends RecursoDigital {
+public class Revista extends RecursoDigital implements Prestable {
     private String edicion;
     private String clasificacion;
 
@@ -21,7 +21,22 @@ public class Revista extends RecursoDigital {
         return this.clasificacion;
     }
 
+    @Override
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
+
     //setters
+    @Override
+    public void marcarComoPrestado() {
+        disponible = false;
+    }
+
+    @Override
+    public void marcarComoDisponible() {
+        disponible = true;
+    }
+
     public void setEdicion(String edicion){
         if (edicion == null || edicion.trim().isEmpty()){
             throw new IllegalArgumentException("La edición no puede estar vacía");

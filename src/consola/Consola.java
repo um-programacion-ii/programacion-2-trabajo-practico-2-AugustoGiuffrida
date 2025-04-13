@@ -2,9 +2,6 @@ package src.consola;
 import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
-
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

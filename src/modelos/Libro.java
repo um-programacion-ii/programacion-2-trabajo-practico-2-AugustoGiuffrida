@@ -1,7 +1,8 @@
 package src.modelos;
+import src.interfaces.Prestable;
 import java.util.Scanner;
 
-public class Libro extends RecursoDigital{
+public class Libro extends RecursoDigital implements Prestable {
     private int isbn;
     private String genero;
 
@@ -20,9 +21,24 @@ public class Libro extends RecursoDigital{
         return  this.genero;
     }
 
+    @Override
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
+
     //setters
     public void setIsbn(int isbn){
         this.isbn = isbn;
+    }
+
+    @Override
+    public void marcarComoPrestado() {
+        disponible = false;
+    }
+
+    @Override
+    public void marcarComoDisponible() {
+        disponible = true;
     }
 
     public void setGenero(String genero){
