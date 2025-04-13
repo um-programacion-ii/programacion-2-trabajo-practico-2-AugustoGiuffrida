@@ -1,6 +1,8 @@
 package src.gestores;
 
 import src.modelos.RecursoDigital;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +16,39 @@ public class GestorRecursos {
     public void agregarRecurso(RecursoDigital recurso) {
         recursoDigital.add(recurso);
         System.out.println("Recurso agregado exitosamente.");
+    }
+
+    public void listarRecursos(){
+        if (recursoDigital.isEmpty()) {
+            System.out.println("No hay recursos disponibles.");
+            return;
+        }
+
+        System.out.println("\n==== Lista de Recursos ====");
+        for(RecursoDigital recurso: recursoDigital){
+            System.out.println("- " + recurso);
+        }
+    }
+
+    public void eliminarRecurso(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el titulo del recurso a eliminar: ");
+        String titulo = scanner.nextLine();
+        boolean eliminado = false;
+
+        Iterator<RecursoDigital> iterator = recursoDigital.iterator();
+        while(iterator.hasNext()){
+            RecursoDigital recurso = iterator.next();
+            if (recurso.getTitulo().equalsIgnoreCase(titulo)){
+                System.out.println("El recurso " +recurso.getTitulo()+ " ha sido eliminado");
+                iterator.remove();
+                eliminado = true;
+                break;
+            }
+        }
+        if (!eliminado){
+            System.out.println("No se encontraron coincidencias");
+        }
     }
 
     public void buscarRecurso(){

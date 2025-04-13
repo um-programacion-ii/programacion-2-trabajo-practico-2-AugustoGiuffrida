@@ -3,6 +3,8 @@ import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
 
+import javax.sound.midi.Soundbank;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,7 +59,8 @@ public class Consola {
             System.out.println("1. Añadir usuarios");
             System.out.println("2. Eliminar usuarios");
             System.out.println("3. Buscar usuarios");
-            System.out.println("4. Volver al menú principal");
+            System.out.println("4. Listar usuarios");
+            System.out.println("5. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -74,6 +77,9 @@ public class Consola {
                     gestorUsuario.buscarUsuario();
                     break;
                 case 4:
+                    gestorUsuario.listarUsuarios();
+                    break;
+                case 5:
                     volver = true;
                     break;
                 default:
@@ -89,7 +95,8 @@ public class Consola {
             System.out.println("1. Añadir recursos");
             System.out.println("2. Eliminar recursos");
             System.out.println("3. Buscar recursos");
-            System.out.println("4. Volver al menú principal");
+            System.out.println("4. Listar recursos");
+            System.out.println("5. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -100,12 +107,15 @@ public class Consola {
                     menuAnadirRecursos();
                     break;
                 case 2:
-                    System.out.println("Eliminar recursos (a implementar)");
+                    gestorRecursos.eliminarRecurso();
                     break;
                 case 3:
                     gestorRecursos.buscarRecurso();
                     break;
                 case 4:
+                    gestorRecursos.listarRecursos();
+                    break;
+                case 5:
                     volver = true;
                     break;
                 default:

@@ -70,10 +70,9 @@ public abstract class RecursoDigital implements IRecursoDigital {
 
     @Override
     public String toString() {
-        return "Recurso: " + titulo + " | autor: " + autor + " | anioPublicacion: " + anioPublicacion;
+        return "Recurso: " + titulo + " | autor: " + autor + " | anioPublicacion: " + anioPublicacion + " | Disponibilidad: " +disponible;
     }
 
-    // En RecursoDigital.java
     protected static Object[] leerDatosGenerales() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Título: ");
