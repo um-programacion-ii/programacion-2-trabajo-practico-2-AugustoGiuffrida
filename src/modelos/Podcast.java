@@ -21,6 +21,9 @@ public class Podcast extends RecursoDigital{
         return this.episodioNumero;
     }
 
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
     //setters
     public void setEpisodioNumero(int episodioNumero){
         if (episodioNumero <=0){
