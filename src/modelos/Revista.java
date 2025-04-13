@@ -6,8 +6,8 @@ public class Revista extends RecursoDigital {
 
     public Revista(String titulo, String autor, int anioPublicacion, boolean disponible, String edicion, String clasificacion){
         super(titulo, autor, anioPublicacion, disponible);
-        this.edicion = edicion;
-        this.clasificacion =clasificacion;
+        setEdicion(edicion);
+        setClasificacion(clasificacion);
     }
 
     //getters
