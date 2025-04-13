@@ -1,5 +1,7 @@
 package src.modelos;
 
+import java.util.Scanner;
+
 public class Audiolibro extends RecursoDigital {
     private String formatoAudio;
     private String idioma;
@@ -37,5 +39,21 @@ public class Audiolibro extends RecursoDigital {
     @Override
     public String toString(){
         return super.toString() + " | Formato Audio: " + formatoAudio + " | Idioma: " + idioma;
+    }
+
+    public static Audiolibro crearRecurso() {
+        Object[] datosGenerales = RecursoDigital.leerDatosGenerales();
+        String titulo = (String) datosGenerales[0];
+        String autor = (String) datosGenerales[1];
+        int anio = (int) datosGenerales[2];
+        boolean disponible = (boolean) datosGenerales[3];
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Formato de audio: ");
+        String formatoAudio = scanner.nextLine();
+        System.out.print("Idioma: ");
+        String idioma = scanner.nextLine();
+
+        return new Audiolibro(titulo, autor, anio, disponible, formatoAudio, idioma);
     }
 }

@@ -1,5 +1,7 @@
 package src.modelos;
 
+import java.util.Scanner;
+
 public class Podcast extends RecursoDigital{
     private String nombreSerie;
     private int episodioNumero;
@@ -37,6 +39,22 @@ public class Podcast extends RecursoDigital{
     @Override
     public String toString() {
         return super.toString() + " | Nombre de la serie: " + nombreSerie + " | Número de episodio: " + episodioNumero;
+    }
+
+    public static Podcast crearRecurso() {
+        Object[] datosGenerales = RecursoDigital.leerDatosGenerales();
+        String titulo = (String) datosGenerales[0];
+        String autor = (String) datosGenerales[1];
+        int anio = (int) datosGenerales[2];
+        boolean disponible = (boolean) datosGenerales[3];
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Episodio número: ");
+        int episodioNumero = Integer.parseInt(scanner.nextLine());
+        System.out.print("Nombre de la serie: ");
+        String nombreSerie = scanner.nextLine();
+
+        return new Podcast(titulo, autor, anio, disponible, episodioNumero, nombreSerie);
     }
 
 }

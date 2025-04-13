@@ -1,5 +1,7 @@
 package src.modelos;
 
+import java.util.Scanner;
+
 public class Revista extends RecursoDigital {
     private String edicion;
     private String clasificacion;
@@ -37,5 +39,21 @@ public class Revista extends RecursoDigital {
     @Override
     public String toString(){
         return super.toString() + " | Clasificación: " + clasificacion + " | Edición: " + edicion;
+    }
+
+    public static Revista crearRecurso() {
+        Object[] datosGenerales = RecursoDigital.leerDatosGenerales();
+        String titulo = (String) datosGenerales[0];
+        String autor = (String) datosGenerales[1];
+        int anio = (int) datosGenerales[2];
+        boolean disponible = (boolean) datosGenerales[3];
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Edicion: ");
+        String edicion = scanner.nextLine();
+        System.out.print("Clasificación: ");
+        String clasificacion = scanner.nextLine();
+
+        return new Revista(titulo, autor, anio, disponible, edicion, clasificacion);
     }
 }

@@ -11,6 +11,11 @@ public class GestorRecursos {
         this.recursoDigital = recursoDigital;
     }
 
+    public void agregarRecurso(RecursoDigital recurso) {
+        recursoDigital.add(recurso);
+        System.out.println("Recurso agregado exitosamente.");
+    }
+
     public void buscarRecurso(){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese dato del Recurso (Autor, titulo, año de publicacion): ");
@@ -25,7 +30,7 @@ public class GestorRecursos {
             }
         }
         if (!encontrado){
-            System.out.println("No se encontraron usuarios con este email");
+            System.out.println("No hay coincidencias");
         }
     }
 
