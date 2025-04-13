@@ -1,8 +1,8 @@
 package src.modelos;
-
+import src.interfaces.Prestable;
 import java.util.Scanner;
 
-public class Audiolibro extends RecursoDigital {
+public class Audiolibro extends RecursoDigital implements Prestable {
     private String formatoAudio;
     private String idioma;
 
@@ -21,7 +21,23 @@ public class Audiolibro extends RecursoDigital {
         return  this.idioma;
     }
 
+    @Override
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
+
     //setters
+
+    @Override
+    public void marcarComoPrestado() {
+        disponible = false;
+    }
+
+    @Override
+    public void marcarComoDisponible() {
+        disponible = true;
+    }
+
     public void setFormatoAudio(String formatoAudio){
         if (formatoAudio == null || formatoAudio.trim().isEmpty()){
             throw new IllegalArgumentException("El formato del Audio no puede estar vacío");
