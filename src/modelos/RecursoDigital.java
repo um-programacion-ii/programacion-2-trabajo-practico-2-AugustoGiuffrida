@@ -1,6 +1,6 @@
 package src.modelos;
 import src.interfaces.IRecursoDigital;
-
+import java.util.Scanner;
 import java.time.LocalDate;
 
 public abstract class RecursoDigital implements IRecursoDigital {
@@ -72,5 +72,21 @@ public abstract class RecursoDigital implements IRecursoDigital {
     public String toString() {
         return "Recurso: " + titulo + " | autor: " + autor + " | anioPublicacion: " + anioPublicacion;
     }
+
+    // En RecursoDigital.java
+    protected static Object[] leerDatosGenerales() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Título: ");
+        String titulo = scanner.nextLine();
+        System.out.print("Autor: ");
+        String autor = scanner.nextLine();
+        System.out.print("Año: ");
+        int anio = Integer.parseInt(scanner.nextLine());
+        System.out.print("¿Está disponible? (true/false): ");
+        boolean disponible = Boolean.parseBoolean(scanner.nextLine());
+
+        return new Object[]{titulo, autor, anio, disponible};
+    }
+
 
 }
