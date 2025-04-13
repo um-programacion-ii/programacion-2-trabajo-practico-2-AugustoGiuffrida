@@ -13,6 +13,18 @@ public class GestorUsuario {
         this.usuarios = usuarios;
     }
 
+    public void listarUsuarios() {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+        } else {
+            System.out.println("\n==== Lista de Usuarios ====");
+            for (Usuario usuario : usuarios) {
+                System.out.println("- " + usuario);
+            }
+        }
+    }
+
+
     public void anadirUsuario(){
         Scanner scanner = new Scanner(System.in);
 
@@ -44,7 +56,8 @@ public class GestorUsuario {
                 System.out.println("\nPor favor, reintente con los datos correctos.\n");
                 i--;
             } catch (InputMismatchException error){
-                System.out.print("Error, la entrada es invalida.");
+                System.out.print("Error: la entrada no es válida (se esperaba un número para la edad).");
+                scanner.nextLine();
                 i--;
             }
         }
@@ -60,9 +73,9 @@ public class GestorUsuario {
         while (iterator.hasNext()){
             Usuario usuario = iterator.next();
             if (usuario.getEmail().equalsIgnoreCase(email)){
+                System.out.println("El usuario con email '" + usuario.getEmail() + "' ha sido eliminado correctamente.");
                 iterator.remove();
                 eliminado = true;
-                System.out.print("Usuario eliminado correctamente");
                 break;
             }
         }
