@@ -21,7 +21,6 @@ public class Audiolibro extends RecursoDigital implements Prestable {
         return  this.idioma;
     }
 
-    @Override
     public boolean estaDisponible(){
         return this.disponible;
     }

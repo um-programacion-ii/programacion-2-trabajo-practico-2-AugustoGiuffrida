@@ -1,15 +1,18 @@
 package src.modelos;
 import src.interfaces.Prestable;
+import src.interfaces.Renovable;
+
 import java.util.Scanner;
 
-public class Libro extends RecursoDigital implements Prestable {
+public class Libro extends RecursoDigital implements Prestable, Renovable {
     private int isbn;
     private String genero;
+    private boolean renovable = true;
 
     public Libro(String titulo, String autor, int anioPublicacion, boolean disponible, int isbn, String genero){
         super(titulo, autor, anioPublicacion, disponible);
-        this.isbn = isbn;
         setGenero(genero);
+        this.isbn = isbn;
     }
 
     //getters
@@ -21,14 +24,22 @@ public class Libro extends RecursoDigital implements Prestable {
         return  this.genero;
     }
 
-    @Override
     public boolean estaDisponible(){
         return this.disponible;
+    }
+
+    @Override
+    public boolean permiteRenovacion(){
+        return this.renovable;
     }
 
     //setters
     public void setIsbn(int isbn){
         this.isbn = isbn;
+    }
+
+    public void setRenovable(boolean renovable) {
+        this.renovable = renovable;
     }
 
     @Override
@@ -52,7 +63,6 @@ public class Libro extends RecursoDigital implements Prestable {
     public String toString(){
         return super.toString() + "| ISBN:" +isbn+ "| Genero: " +genero;
     }
-
 
     public static Libro crearRecurso() {
         Object[] datosGenerales = RecursoDigital.leerDatosGenerales();

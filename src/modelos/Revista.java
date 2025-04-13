@@ -1,10 +1,14 @@
 package src.modelos;
 import src.interfaces.Prestable;
+import src.interfaces.Renovable;
+
 import java.util.Scanner;
 
-public class Revista extends RecursoDigital implements Prestable {
+public class Revista extends RecursoDigital implements Prestable, Renovable {
     private String edicion;
     private String clasificacion;
+    private boolean renovable = true;
+
 
     public Revista(String titulo, String autor, int anioPublicacion, boolean disponible, String edicion, String clasificacion){
         super(titulo, autor, anioPublicacion, disponible);
@@ -21,15 +25,23 @@ public class Revista extends RecursoDigital implements Prestable {
         return this.clasificacion;
     }
 
-    @Override
     public boolean estaDisponible(){
         return this.disponible;
+    }
+
+    @Override
+    public boolean permiteRenovacion(){
+        return this.renovable;
     }
 
     //setters
     @Override
     public void marcarComoPrestado() {
         disponible = false;
+    }
+
+    public void setRenovable(boolean renovable) {
+        this.renovable = renovable;
     }
 
     @Override
