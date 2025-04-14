@@ -1,6 +1,6 @@
 package src.gestores;
 import src.modelos.Usuario;
-
+import src.servicios.ServicioNotificacionesEmail;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
@@ -74,6 +74,9 @@ public class GestorUsuario {
             try {
                Usuario nuevo = crearUsuario(scanner);
                usuarios.add(nuevo);
+                ServicioNotificacionesEmail servicio = new ServicioNotificacionesEmail(nuevo.getEmail());
+                String resultado = servicio.enviarNotificacion("¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!");
+                System.out.println(resultado);
             } catch (IllegalArgumentException error) {
                 System.out.print("Error al agregar usuario: " + error.getMessage());
                 System.out.println("\nPor favor, reintente con los datos correctos.\n");
