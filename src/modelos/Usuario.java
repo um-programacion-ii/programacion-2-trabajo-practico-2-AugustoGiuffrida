@@ -2,49 +2,49 @@ package src.modelos;
 
 public class Usuario {
     private String nombre;
-    private Integer edad;
+    private int edad;
     private String email;
+    private String telefono;
 
-    public Usuario(String nombre, Integer edad, String email){
+    public Usuario(String nombre, int edad, String email, String telefono){
         setNombre(nombre);
         setEdad(edad);
         setEmail(email);
+        setTelefono(telefono);
     }
 
     //getters
     public String getNombre(){
         return this.nombre;
     }
-
-    public Integer getEdad(){
+    public int getEdad(){
         return this.edad;
     }
-
     public String getEmail(){
         return this.email;
+    }
+    public String getTelefono(){
+        return this.telefono;
     }
 
     //setters
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-
-    public void setEdad(Integer edad){
+    public void setEdad(int edad){
         this.edad = edad;
     }
-
-
     public void setEmail(String email){
-        if (email == null || email.trim().isEmpty()){
-            throw new IllegalArgumentException("El email no puede estar vacio");
-        }
         this.email =  email;
+    }
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
     }
 
     //Metodos
     @Override
     public String toString() {
-        return "Usuario: " + nombre + " | Edad: " + edad + " | Email: " + email;
+        return "Usuario: " + nombre + " | Edad: " + edad + " | Email: " + email + " | Telefono: " +telefono;
     }
 
 }

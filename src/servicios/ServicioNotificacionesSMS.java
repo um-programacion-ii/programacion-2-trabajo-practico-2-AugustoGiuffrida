@@ -1,0 +1,22 @@
+package src.servicios;
+
+public class ServicioNotificacionesSMS implements ServicioNotificaciones{
+    private String numDestino;
+
+    public ServicioNotificacionesSMS(String numDestino){
+        this.numDestino = numDestino;
+    }
+
+    @Override
+    public  void establecerDestinatario(String contacto){
+        this.numDestino = contacto;
+    }
+
+    @Override
+    public String enviarNotificacion(String mensaje){
+        if (numDestino == null || numDestino.isBlank()) {
+            return "Error: destinatario de mensaje no definido.";
+        }
+        return  "Enviando mensaje a " + numDestino + ": " + mensaje;
+    }
+}
