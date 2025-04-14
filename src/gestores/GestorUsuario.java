@@ -24,6 +24,44 @@ public class GestorUsuario {
         }
     }
 
+    public Usuario crearUsuario(Scanner scanner) throws IllegalArgumentException{
+        System.out.print("Ingrese nombre: ");
+        String nombre = scanner.nextLine();
+        if (nombre == null || nombre.isBlank()){
+            throw new IllegalArgumentException("El nombre no puede estar vacio");
+        }
+
+        System.out.print("Ingrese edad: ");
+        int edad = scanner.nextInt();
+        if (edad < 0) {
+            throw new IllegalArgumentException("La edad debe ser un numero entero");
+        }
+        scanner.nextLine();
+
+        System.out.print("Ingrese email: ");
+        String email = scanner.nextLine();
+        if (email == null || email.isBlank()){
+            throw new IllegalArgumentException("El email no puede estar vacio");
+        } else if (existeEmail(email)){
+            throw new IllegalArgumentException("Ya existe un usuario con ese email.");
+        }
+
+        System.out.print("Ingrese numero de telefono: ");
+        String telefono = scanner.nextLine();
+        if (telefono == null || telefono.isBlank()){
+            throw new IllegalArgumentException("El número de teléfono no puede estar vacio");
+        }
+        return new Usuario(nombre, edad, email, telefono);
+    }
+
+    public boolean existeEmail(String email){
+        for (Usuario u:usuarios){
+            if(u.getEmail().equalsIgnoreCase(email)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void anadirUsuario(){
         Scanner scanner = new Scanner(System.in);
@@ -34,29 +72,14 @@ public class GestorUsuario {
 
         for (int i =1; i <= cont; i++){
             try {
-                System.out.print("Ingrese nombre: ");
-                String nombre = scanner.nextLine();
-                if (nombre == null || nombre.trim().isEmpty()){
-                    throw new IllegalArgumentException("El nombre no puede estar vacio");
-                }
-
-                System.out.print("Ingrese edad: ");
-                Integer edad = scanner.nextInt();
-                if (edad < 0) {
-                    throw new IllegalArgumentException("La edad debe ser un numero entero");
-                }
-                scanner.nextLine();
-                System.out.print("Ingrese email: ");
-                String email = scanner.nextLine();
-
-                Usuario usuario = new Usuario(nombre, edad, email);
-                usuarios.add(usuario);
+               Usuario nuevo = crearUsuario(scanner);
+               usuarios.add(nuevo);
             } catch (IllegalArgumentException error) {
                 System.out.print("Error al agregar usuario: " + error.getMessage());
                 System.out.println("\nPor favor, reintente con los datos correctos.\n");
                 i--;
             } catch (InputMismatchException error){
-                System.out.print("Error: la entrada no es válida (se esperaba un número para la edad).");
+                System.out.println("Error: la entrada no es válida (se esperaba un número para la edad).");
                 scanner.nextLine();
                 i--;
             }
