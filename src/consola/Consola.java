@@ -2,21 +2,23 @@ package src.consola;
 import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import src.servicios.ServicioNotificacionesEmail;
+
+import java.util.*;
 
 public class Consola {
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
+    private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private Scanner scanner;
 
     public Consola(){
-        List<Usuario> usuarios = new ArrayList<>();
+        Map<String,Usuario> usuarios = new HashMap<>();
         List<RecursoDigital> recursoDigitalList = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
-        this.gestorUsuario = new GestorUsuario(usuarios);
+        this.gestorUsuario = new GestorUsuario(usuarios, servicioNotificacionesEmail);
     }
 
     public void iniciar(){
@@ -65,13 +67,13 @@ public class Consola {
 
             switch (opcion){
                 case 1:
-                    gestorUsuario.anadirUsuario();
+                    gestorUsuario.anadirUsuario(scanner);
                     break;
                 case 2:
-                    gestorUsuario.eliminarUsuario();
+                    gestorUsuario.eliminarUsuario(scanner);
                     break;
                 case 3:
-                    gestorUsuario.buscarUsuario();
+                    gestorUsuario.buscarUsuario(scanner);
                     break;
                 case 4:
                     gestorUsuario.listarUsuarios();
