@@ -1,11 +1,16 @@
 package src.gestores;
 
+import src.enums.tipoFiltro;
 import src.interfaces.Prestable;
 import src.interfaces.Renovable;
 import src.modelos.RecursoDigital;
+
+import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class GestorRecursos {
     private List<RecursoDigital> recursoDigital;
@@ -24,47 +29,44 @@ public class GestorRecursos {
             System.out.println("No hay recursos disponibles.");
             return;
         }
-
         System.out.println("\n==== Lista de Recursos ====");
         for(RecursoDigital recurso: recursoDigital){
             System.out.println("- " + recurso);
         }
     }
 
-    public void mostrarRecursosFiltrados(String titulo, String tipo){
+    public void mostrarRecursosFiltrados(String titulo, tipoFiltro tipo){
         if (recursoDigital.isEmpty()) {
             System.out.println("No hay recursos disponibles.");
             return;
         }
-
         System.out.println("\n==== "+titulo+" ====");
-        boolean encontrado = false;
-
         for (RecursoDigital recurso : recursoDigital) {
-            if (tipo.equals("prestable") && recurso instanceof Prestable){
-                System.out.println("- " + recurso);
-                encontrado = true;
-            } else if (tipo.equals("renovable") && recurso instanceof Renovable && ((Renovable) recurso).permiteRenovacion()){
-                System.out.println("- " + recurso);
-                encontrado = true;
+            switch (tipo) {
+                case PRESTABLE:
+                    if (recurso instanceof Prestable ) {
+                        System.out.println("- " + recurso);
+                    }
+                    break;
+                case RENOVABLE:
+                    if(recurso instanceof Renovable && ((Renovable) recurso).permiteRenovacion()) {
+                        System.out.println("- " + recurso);
+                    }
+                    break;
             }
-        }
-        if (!encontrado){
-            System.out.println("No se encontraron recursos que cumplan con el criterio.");
         }
     }
 
     public void filtrarPrestables(){
-        mostrarRecursosFiltrados("Lista de Recursos Prestables","prestable");
+        mostrarRecursosFiltrados("Lista de Recursos Prestables", tipoFiltro.PRESTABLE);
     }
 
     public void filtrarRenovables(){
-        mostrarRecursosFiltrados("Lista de Recursos Renovables","renovable");
+        mostrarRecursosFiltrados("Lista de Recursos Renovables", tipoFiltro.RENOVABLE);
     }
 
 
-    public void eliminarRecurso(){
-        Scanner scanner = new Scanner(System.in);
+    public void eliminarRecurso(Scanner scanner){
         System.out.print("Ingrese el titulo del recurso a eliminar: ");
         String titulo = scanner.nextLine();
         boolean eliminado = false;
@@ -84,21 +86,18 @@ public class GestorRecursos {
         }
     }
 
-    public void buscarRecurso(){
-        Scanner scanner = new Scanner(System.in);
+    public void buscarRecurso(Scanner scanner){
         System.out.print("Ingrese dato del Recurso (Autor, titulo, año de publicacion): ");
         String dato = scanner.nextLine();
-        boolean encontrado = false;
 
-        for(RecursoDigital recurso: recursoDigital){
-            if (recurso.getTitulo().equalsIgnoreCase(dato) || recurso.getAutor().equalsIgnoreCase(dato) ||String.valueOf(recurso.getAnioPublicacion()).equals(dato)) {
-                System.out.println(recurso.toString());
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado){
+        List<RecursoDigital> encontrados = recursoDigital.stream()
+                .filter(r ->r.getTitulo().equalsIgnoreCase(dato) || r.getAutor().equalsIgnoreCase(dato) || String.valueOf(r.getAnioPublicacion()).equals(dato))
+                .toList();
+
+        if (encontrados.isEmpty()){
             System.out.println("No hay coincidencias");
+        } else{
+            encontrados.forEach(System.out::println);
         }
     }
 
