@@ -79,7 +79,7 @@ public class GestorUsuario {
 
     public void anadirUsuario(Scanner scanner){
 
-        int cantidad = cantidaUsuarios(scanner);
+        int cantidad = cantidadUsuarios(scanner);
 
         int registros = 0;
 
@@ -95,7 +95,7 @@ public class GestorUsuario {
             registrarNuevoUsuario(scanner);
             return true;
         } catch (IllegalArgumentException error) {
-            System.out.print("Error al agregar usuario: " + error.getMessage());
+            System.out.println("Error al agregar usuario: " + error.getMessage());
             System.out.println("\nPor favor, reintente con los datos correctos.\n");
         } catch (InputMismatchException error){
             System.out.println("Error: la entrada no es válida (se esperaba un número para la edad).");
@@ -111,18 +111,25 @@ public class GestorUsuario {
         System.out.println(servicioNotificacionesEmail.enviarNotificacion("¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!"));;
     }
 
-    public int cantidaUsuarios(Scanner scanner){
-        System.out.print("¿Cuantos usuarios quiere añadir? ");
-        int cont = scanner.nextInt();
-        scanner.nextLine();
-        return cont;
+    public int cantidadUsuarios(Scanner scanner){
+        while (true) {
+            try {
+                System.out.print("¿Cuantos usuarios quiere añadir? ");
+                int cont = scanner.nextInt();
+                scanner.nextLine();
+                return cont;
+            } catch (InputMismatchException error) {
+                System.out.println("Error: la entrada no es válida, se esperaba un número.");
+                scanner.nextLine();
+            }
+        }
     }
 
     public void eliminarUsuario(Scanner scanner ){
         System.out.print("Ingrese el email del usuario a eliminar: ");
         String email = scanner.nextLine();
 
-        Usuario eliminado = usuarios.remove(email);
+        Usuario eliminado = usuarios.remove(email.toLowerCase());
         if (eliminado == null){
             System.out.println("No se encontraron usuarios con este email");
         } else {
