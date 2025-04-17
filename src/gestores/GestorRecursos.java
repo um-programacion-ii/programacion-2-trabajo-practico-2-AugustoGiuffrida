@@ -1,6 +1,7 @@
 package src.gestores;
 
 import src.enums.tipoFiltro;
+import src.exepciones.RecursoNoDisponibleException;
 import src.interfaces.Prestable;
 import src.interfaces.Renovable;
 import src.modelos.*;
@@ -132,17 +133,21 @@ public class GestorRecursos {
     }
 
     public void buscarRecurso(Scanner scanner){
-        System.out.print("Ingrese dato del Recurso (Autor, titulo, año de publicacion): ");
-        String dato = scanner.nextLine();
+        try {
+            System.out.print("Ingrese dato del Recurso (Autor, titulo, año de publicacion): ");
+            String dato = scanner.nextLine();
 
-        List<RecursoDigital> encontrados = recursoDigital.stream()
-                .filter(r ->r.getTitulo().equalsIgnoreCase(dato) || r.getAutor().equalsIgnoreCase(dato) || String.valueOf(r.getAnioPublicacion()).equals(dato))
-                .toList();
+            List<RecursoDigital> encontrados = recursoDigital.stream()
+                    .filter(r -> r.getTitulo().equalsIgnoreCase(dato) || r.getAutor().equalsIgnoreCase(dato) || String.valueOf(r.getAnioPublicacion()).equals(dato))
+                    .toList();
 
-        if (encontrados.isEmpty()){
-            System.out.println("No hay coincidencias");
-        } else{
-            encontrados.forEach(System.out::println);
+            if (encontrados.isEmpty()) {
+                throw new RecursoNoDisponibleException("El recurso no esta disponible.");
+            } else {
+                encontrados.forEach(System.out::println);
+            }
+        } catch ( RecursoNoDisponibleException error){
+            System.out.println("Error: " + error.getMessage());
         }
     }
 
