@@ -106,10 +106,10 @@ public class Consola {
                     menuAnadirRecursos();
                     break;
                 case 2:
-                    gestorRecursos.eliminarRecurso();
+                    gestorRecursos.eliminarRecurso(scanner);
                     break;
                 case 3:
-                    gestorRecursos.buscarRecurso();
+                    gestorRecursos.buscarRecurso(scanner);
                     break;
                 case 4:
                     filtrarRecursos();
