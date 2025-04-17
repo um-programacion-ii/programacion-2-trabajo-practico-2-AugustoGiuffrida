@@ -3,6 +3,7 @@ import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
 import src.servicios.ServicioNotificacionesEmail;
+import src.enums.categoriaRecurso;
 
 import java.util.*;
 
@@ -94,7 +95,7 @@ public class Consola {
             System.out.println("1. Añadir recursos");
             System.out.println("2. Eliminar recursos");
             System.out.println("3. Buscar recursos");
-            System.out.println("4. Mostrar recursos renovables o prestables");
+            System.out.println("4. Filtrar recursos");
             System.out.println("5. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
 
@@ -130,7 +131,8 @@ public class Consola {
             System.out.println("1. Listar todos los recursos");
             System.out.println("2. Listar recursos que se pueden prestar");
             System.out.println("3. Listar recursos renovables");
-            System.out.println("4. Volver al menú recursos");
+            System.out.println("4. Filtrar por categoria");
+            System.out.println("5. Volver al menú recursos");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -147,12 +149,41 @@ public class Consola {
                     gestorRecursos.filtrarRenovables();
                     break;
                 case 4:
+                    menuFiltrarRecursos();
+                    break;
+                case 5:
                     volver = true;
                     break;
                 default:
                     System.out.println("Opción inválida");
             }
         }
+    }
+
+    public void menuFiltrarRecursos(){
+        System.out.println("Filtrar por categoría:");
+        System.out.println("1. LIBRO\n2. REVISTA\n3. PODCAST\n4. AUDIOLIBRO");
+        System.out.print("Seleccione una opción: ");
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (opcion) {
+            case 1:
+                gestorRecursos.filtrarPorCategoria(categoriaRecurso.LIBRO);
+                break;
+            case 2:
+                gestorRecursos.filtrarPorCategoria(categoriaRecurso.REVISTA);
+                break;
+            case 3:
+                gestorRecursos.filtrarPorCategoria(categoriaRecurso.PODCAST);
+                break;
+            case 4:
+                gestorRecursos.filtrarPorCategoria(categoriaRecurso.AUDIOLIBRO);
+                break;
+            default:
+                System.out.println("Opción no válida.");
+        }
+
     }
 
     public void menuAnadirRecursos(){
@@ -171,20 +202,16 @@ public class Consola {
 
             switch (opcion){
                 case 1:
-                    Libro libro = Libro.crearRecurso();
-                    gestorRecursos.agregarRecurso(libro);
+                    gestorRecursos.agregarRecurso(categoriaRecurso.LIBRO);
                     break;
                 case 2:
-                    Podcast podcast = Podcast.crearRecurso();
-                    gestorRecursos.agregarRecurso(podcast);
+                    gestorRecursos.agregarRecurso(categoriaRecurso.PODCAST);
                     break;
                 case 3:
-                    Audiolibro audiolibro = Audiolibro.crearRecurso();
-                    gestorRecursos.agregarRecurso(audiolibro);
+                    gestorRecursos.agregarRecurso(categoriaRecurso.AUDIOLIBRO);
                     break;
                 case 4:
-                    Revista revista = Revista.crearRecurso();
-                    gestorRecursos.agregarRecurso(revista);
+                    gestorRecursos.agregarRecurso(categoriaRecurso.REVISTA);
                     break;
                 case 5:
                     volver = true;

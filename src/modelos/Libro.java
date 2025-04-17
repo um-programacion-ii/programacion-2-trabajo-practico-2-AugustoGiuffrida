@@ -1,4 +1,5 @@
 package src.modelos;
+import src.enums.categoriaRecurso;
 import src.interfaces.Prestable;
 import src.interfaces.Renovable;
 
@@ -12,7 +13,7 @@ public class Libro extends RecursoDigital implements Prestable, Renovable {
     public Libro(String titulo, String autor, int anioPublicacion, boolean disponible, int isbn, String genero){
         super(titulo, autor, anioPublicacion, disponible);
         setGenero(genero);
-        this.isbn = isbn;
+        setIsbn(isbn);
     }
 
     //getters
@@ -33,8 +34,17 @@ public class Libro extends RecursoDigital implements Prestable, Renovable {
         return this.renovable;
     }
 
+    @Override
+    public categoriaRecurso getCategoria() {
+        return categoriaRecurso.LIBRO;
+    }
+
+
     //setters
     public void setIsbn(int isbn){
+        if (isbn <= 0){
+            throw new IllegalArgumentException("El ISBN debe ser un número positivo.");
+        }
         this.isbn = isbn;
     }
 

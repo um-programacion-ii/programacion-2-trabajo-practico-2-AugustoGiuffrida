@@ -3,10 +3,8 @@ package src.gestores;
 import src.enums.tipoFiltro;
 import src.interfaces.Prestable;
 import src.interfaces.Renovable;
-import src.modelos.RecursoDigital;
-
-import java.time.LocalDate;
-import java.util.InputMismatchException;
+import src.modelos.*;
+import src.enums.categoriaRecurso;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -19,9 +17,56 @@ public class GestorRecursos {
         this.recursoDigital = recursoDigital;
     }
 
-    public void agregarRecurso(RecursoDigital recurso) {
-        recursoDigital.add(recurso);
-        System.out.println("Recurso agregado exitosamente.");
+    public void agregarRecurso(categoriaRecurso categoriaRecurso) {
+        while (true){
+            try {
+                RecursoDigital recurso = crearRecursoPorCategoria(categoriaRecurso);
+                recursoDigital.add(recurso);
+                break;
+            } catch (NumberFormatException error) {
+                System.out.println("Error al ingresar los datos: " + error.getMessage());
+            } catch (IllegalArgumentException error){
+                System.out.println("Error al ingresar los datos: " + error.getMessage());
+                System.out.println("Por favor, vuelva a intentarlo.\n");
+            }
+        }
+    }
+
+    private RecursoDigital crearRecursoPorCategoria(categoriaRecurso categoria) {
+        switch (categoria) {
+            case LIBRO:
+                return Libro.crearRecurso();
+            case REVISTA:
+                return Revista.crearRecurso();
+            case PODCAST:
+                return Podcast.crearRecurso();
+            case AUDIOLIBRO:
+                return Audiolibro.crearRecurso();
+            default:
+                throw new IllegalArgumentException("Categoría no válida.");
+        }
+    }
+
+    public void filtrarPorCategoria(categoriaRecurso categoria){
+        boolean encontrado = false;
+        System.out.println("\n==== Recursos de la categoría: " + categoria + " ====");
+
+        for (RecursoDigital recurso : recursoDigital){
+            if (buscarPorCategoria(recurso,categoria)){
+                encontrado = true;
+            }
+        }
+        if(!encontrado){
+            System.out.println("No hay recursos de esta categoría.");
+        }
+    }
+
+    public boolean buscarPorCategoria (RecursoDigital recurso,categoriaRecurso categoria){
+        if (recurso.getCategoria() == categoria){
+            System.out.println("- " + recurso);
+            return  true;
+        }
+        return false;
     }
 
     public void listarRecursos(){
