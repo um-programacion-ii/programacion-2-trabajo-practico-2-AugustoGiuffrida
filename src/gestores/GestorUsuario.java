@@ -1,4 +1,5 @@
 package src.gestores;
+import src.exepciones.UsuarioNoEncontradoException;
 import src.modelos.Usuario;
 import src.servicios.ServicioNotificacionesEmail;
 
@@ -130,15 +131,20 @@ public class GestorUsuario {
     }
 
     public void buscarUsuario(Scanner scanner ) {
-        System.out.print("Ingrese el email del usuario: ");
-        String email = scanner.nextLine();
+        try {
+            System.out.print("Ingrese el email del usuario: ");
+            String email = scanner.nextLine();
 
-        Usuario buscado = usuarios.get(email.toLowerCase());
-        if (buscado == null) {
-            System.out.println("No se encontraron usuarios con este email");
-        } else {
-            System.out.println(buscado);
+            Usuario buscado = usuarios.get(email.toLowerCase());
+            if (buscado == null) {
+                throw new UsuarioNoEncontradoException("No se encontraron usuarios con este email");
+            } else {
+                System.out.println(buscado);
+            }
+        } catch (UsuarioNoEncontradoException error){
+            System.out.println("Error: " + error.getMessage());
         }
+
     }
 
 }
