@@ -1,4 +1,5 @@
 package src.modelos;
+import src.enums.categoriaRecurso;
 import src.interfaces.Prestable;
 import src.interfaces.Renovable;
 
@@ -32,6 +33,11 @@ public class Revista extends RecursoDigital implements Prestable, Renovable {
     @Override
     public boolean permiteRenovacion(){
         return this.renovable;
+    }
+
+    @Override
+    public categoriaRecurso getCategoria() {
+        return categoriaRecurso.REVISTA;
     }
 
     //setters

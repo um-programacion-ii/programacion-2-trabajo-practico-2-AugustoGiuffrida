@@ -1,4 +1,5 @@
 package src.modelos;
+import src.enums.categoriaRecurso;
 import src.interfaces.IRecursoDigital;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -57,6 +58,8 @@ public abstract class RecursoDigital implements IRecursoDigital {
     public String toString() {
         return "Recurso: " + titulo + " | autor: " + autor + " | anioPublicacion: " + anioPublicacion + " | Disponibilidad: " +disponible;
     }
+
+    public abstract categoriaRecurso getCategoria();
 
     protected static Object[] leerDatosGenerales() {
         Scanner scanner = new Scanner(System.in);

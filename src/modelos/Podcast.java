@@ -1,5 +1,7 @@
 package src.modelos;
 
+import src.enums.categoriaRecurso;
+
 import java.util.Scanner;
 
 public class Podcast extends RecursoDigital{
@@ -23,6 +25,11 @@ public class Podcast extends RecursoDigital{
 
     public boolean estaDisponible(){
         return this.disponible;
+    }
+
+    @Override
+    public categoriaRecurso getCategoria() {
+        return categoriaRecurso.PODCAST;
     }
     //setters
     public void setEpisodioNumero(int episodioNumero){

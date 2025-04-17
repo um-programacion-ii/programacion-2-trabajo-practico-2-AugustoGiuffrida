@@ -1,4 +1,5 @@
 package src.modelos;
+import src.enums.categoriaRecurso;
 import src.interfaces.Prestable;
 import java.util.Scanner;
 
@@ -23,6 +24,11 @@ public class Audiolibro extends RecursoDigital implements Prestable {
 
     public boolean estaDisponible(){
         return this.disponible;
+    }
+
+    @Override
+    public categoriaRecurso getCategoria() {
+        return categoriaRecurso.AUDIOLIBRO;
     }
 
     //setters
