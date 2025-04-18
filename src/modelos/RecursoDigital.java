@@ -32,6 +32,10 @@ public abstract class RecursoDigital implements IRecursoDigital {
         return this.anioPublicacion;
     }
 
+    public boolean estaDisponible(){
+        return this.disponible;
+    }
+
     public void setTitulo(String titulo){
         if (titulo == null || titulo.trim().isEmpty()){
             throw new IllegalArgumentException("El titulo no puede estar vacio");

@@ -151,7 +151,15 @@ public class GestorUsuario {
         } catch (UsuarioNoEncontradoException error){
             System.out.println("Error: " + error.getMessage());
         }
-
     }
+
+    public Usuario obtenerUsuarioPorEmail(String email) throws UsuarioNoEncontradoException {
+        Usuario usuario = usuarios.get(email.toLowerCase());
+        if (usuario == null) {
+            throw new UsuarioNoEncontradoException("Usuario no encontrado.");
+        }
+        return usuario;
+    }
+
 
 }

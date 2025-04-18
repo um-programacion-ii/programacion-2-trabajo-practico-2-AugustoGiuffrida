@@ -151,4 +151,11 @@ public class GestorRecursos {
         }
     }
 
+    public RecursoDigital obtenerRecursoPorTitulo(String titulo) throws RecursoNoDisponibleException {
+        return recursoDigital.stream()
+                .filter(r -> r.getTitulo().equalsIgnoreCase(titulo))
+                .findFirst()
+                .orElseThrow(() -> new RecursoNoDisponibleException("Recurso no encontrado."));
+    }
+
 }

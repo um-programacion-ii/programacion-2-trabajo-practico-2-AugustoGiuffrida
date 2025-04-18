@@ -26,10 +26,6 @@ public class Revista extends RecursoDigital implements Prestable, Renovable {
         return this.clasificacion;
     }
 
-    public boolean estaDisponible(){
-        return this.disponible;
-    }
-
     @Override
     public boolean permiteRenovacion(){
         return this.renovable;
@@ -42,7 +38,7 @@ public class Revista extends RecursoDigital implements Prestable, Renovable {
 
     //setters
     @Override
-    public void marcarComoPrestado() {
+    public void marcarComoNoDisponible() {
         disponible = false;
     }
 
