@@ -25,10 +25,6 @@ public class Libro extends RecursoDigital implements Prestable, Renovable {
         return  this.genero;
     }
 
-    public boolean estaDisponible(){
-        return this.disponible;
-    }
-
     @Override
     public boolean permiteRenovacion(){
         return this.renovable;
@@ -53,7 +49,7 @@ public class Libro extends RecursoDigital implements Prestable, Renovable {
     }
 
     @Override
-    public void marcarComoPrestado() {
+    public void marcarComoNoDisponible() {
         disponible = false;
     }
 

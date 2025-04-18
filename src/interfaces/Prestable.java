@@ -1,6 +1,6 @@
 package src.interfaces;
 
 public interface Prestable {
-    void marcarComoPrestado();
+    void marcarComoNoDisponible();
     void marcarComoDisponible();
 }

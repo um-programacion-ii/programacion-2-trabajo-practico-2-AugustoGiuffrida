@@ -22,10 +22,6 @@ public class Audiolibro extends RecursoDigital implements Prestable {
         return  this.idioma;
     }
 
-    public boolean estaDisponible(){
-        return this.disponible;
-    }
-
     @Override
     public categoriaRecurso getCategoria() {
         return categoriaRecurso.AUDIOLIBRO;
@@ -34,7 +30,7 @@ public class Audiolibro extends RecursoDigital implements Prestable {
     //setters
 
     @Override
-    public void marcarComoPrestado() {
+    public void marcarComoNoDisponible() {
         disponible = false;
     }
 

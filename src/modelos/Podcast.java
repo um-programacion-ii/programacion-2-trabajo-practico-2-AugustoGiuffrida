@@ -23,10 +23,6 @@ public class Podcast extends RecursoDigital{
         return this.episodioNumero;
     }
 
-    public boolean estaDisponible(){
-        return this.disponible;
-    }
-
     @Override
     public categoriaRecurso getCategoria() {
         return categoriaRecurso.PODCAST;
