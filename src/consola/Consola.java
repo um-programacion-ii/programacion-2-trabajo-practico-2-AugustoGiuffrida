@@ -1,4 +1,5 @@
 package src.consola;
+import src.gestores.GestorPrestamos;
 import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
@@ -10,16 +11,19 @@ import java.util.*;
 public class Consola {
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
+    private GestorPrestamos gestorPrestamos;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private Scanner scanner;
 
     public Consola(){
         Map<String,Usuario> usuarios = new HashMap<>();
         List<RecursoDigital> recursoDigitalList = new ArrayList<>();
+        List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
         this.gestorUsuario = new GestorUsuario(usuarios, servicioNotificacionesEmail);
+        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario);
     }
 
     public void iniciar(){
@@ -29,7 +33,8 @@ public class Consola {
             System.out.println("\n==== Menú Principal ====");
             System.out.println("1. Gestionar usuarios");
             System.out.println("2. Gestionar recursos");
-            System.out.println("3. Salir");
+            System.out.println("3. Gestionar prestamos");
+            System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -43,8 +48,43 @@ public class Consola {
                     menuRecursos();
                     break;
                 case 3:
+                    menuPrestamos();
+                    break;
+                case 4:
                     salir = true;
                     System.out.println("Saliendo, ¡hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+        }
+    }
+
+    public void menuPrestamos(){
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n==== Menú Prestamos ====");
+            System.out.println("1. Añadir Prestamos");
+            System.out.println("2. Devolver Prestamos");
+            System.out.println("3. Listar Prestamos");
+            System.out.println("4. Volver al menú principal");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion){
+                case 1:
+                    gestorPrestamos.registrarPrestamo(scanner);
+                    break;
+                case 2:
+                    gestorPrestamos.devolverPrestamo(scanner);
+                    break;
+                case 3:
+                    gestorPrestamos.listarPrestamos();
+                    break;
+                case 4:
+                    volver = true;
                     break;
                 default:
                     System.out.println("Opción inválida");

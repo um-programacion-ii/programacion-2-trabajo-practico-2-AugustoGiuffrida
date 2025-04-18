@@ -32,7 +32,7 @@ public class GestorPrestamos {
     }
 
     public void devolverPrestamo(Scanner scanner){
-        System.out.println("Ingrese ID del prestamo: ");
+        System.out.print("Ingrese ID del prestamo: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         boolean encontrado = false;
@@ -42,6 +42,9 @@ public class GestorPrestamos {
                 encontrado = true;
                 if (estadoPrestamo.ACTIVO == prestamo.getEstado()) {
                     prestamo.setEstado(estadoPrestamo.DEVUELTO);
+                    if (prestamo.getRecurso() instanceof Prestable prestable) {
+                        prestable.marcarComoDisponible();
+                    }
                     System.out.println("Recurso devuelto correctamente.");
                 } else {
                     System.out.println("El prestamo" + prestamo + " ya ha sido devuelto");
@@ -65,6 +68,10 @@ public class GestorPrestamos {
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
                 guardarPrestamo(prestamo);
 
+                if (recurso instanceof Prestable prestable) {
+                    prestable.marcarComoNoDisponible();
+                }
+
                 System.out.println("Préstamo registrado con éxito.");
                 break;
 
@@ -79,13 +86,13 @@ public class GestorPrestamos {
     }
 
     public Usuario solicitarUsuario(Scanner scanner) throws UsuarioNoEncontradoException{
-        System.out.println("Ingrese el Email del usuario: ");
+        System.out.print("Ingrese el Email del usuario: ");
         String email = scanner.nextLine();
         return gestorUsuario.obtenerUsuarioPorEmail(email);
     }
 
     public RecursoDigital solicitarRecurso(Scanner scanner) throws RecursoNoDisponibleException{
-        System.out.println("Ingrese el titulo del recurso: ");
+        System.out.print("Ingrese el titulo del recurso: ");
         String titulo = scanner.nextLine();
         return gestorRecursos.obtenerRecursoPorTitulo(titulo);
     }

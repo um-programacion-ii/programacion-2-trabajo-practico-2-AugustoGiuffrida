@@ -154,7 +154,7 @@ public class GestorUsuario {
     }
 
     public Usuario obtenerUsuarioPorEmail(String email) throws UsuarioNoEncontradoException {
-        Usuario usuario = usuarios.get(email.toLowerCase());
+        Usuario usuario = usuarios.get(email.toLowerCase().trim());
         if (usuario == null) {
             throw new UsuarioNoEncontradoException("Usuario no encontrado.");
         }
