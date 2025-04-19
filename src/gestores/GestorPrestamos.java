@@ -6,6 +6,7 @@ import src.exepciones.UsuarioNoEncontradoException;
 import src.interfaces.Prestable;
 import src.modelos.Prestamo;
 import src.modelos.RecursoDigital;
+import src.modelos.Reserva;
 import src.modelos.Usuario;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -17,12 +18,14 @@ public class GestorPrestamos {
     private List<Prestamo> prestamos;
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
+    private GestorReserva gestorReserva;
 
-    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario){
+    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario, GestorReserva gestorReserva){
         GestorPrestamos.contadorPrestamos = contadorPrestamos;
         this.prestamos = prestamos;
         this.gestorUsuario = gestorUsuario;
         this.gestorRecursos = gestorRecursos;
+        this.gestorReserva = gestorReserva;
     }
 
     public void listarPrestamos(){
@@ -42,10 +45,7 @@ public class GestorPrestamos {
                 encontrado = true;
                 if (estadoPrestamo.ACTIVO == prestamo.getEstado()) {
                     prestamo.setEstado(estadoPrestamo.DEVUELTO);
-                    if (prestamo.getRecurso() instanceof Prestable prestable) {
-                        prestable.marcarComoDisponible();
-                    }
-                    System.out.println("Recurso devuelto correctamente.");
+                    manejarRecursoDevuelto(prestamo);
                 } else {
                     System.out.println("El prestamo" + prestamo + " ya ha sido devuelto");
                 }
@@ -56,6 +56,31 @@ public class GestorPrestamos {
         }
     }
 
+    private void manejarRecursoDevuelto(Prestamo prestamo) {
+        RecursoDigital recursoDevuelto = prestamo.getRecurso();
+
+        if (recursoDevuelto instanceof Prestable prestable) {
+            Reserva siguienteReserva = gestorReserva.obtenerSiguienteReservaPorRecurso(recursoDevuelto);
+
+            if (siguienteReserva != null) {
+                asignarReservaComoPrestamo(siguienteReserva);
+                System.out.println("El recurso fue prestado automáticamente al usuario con reserva prioritaria.");
+            } else {
+                prestable.marcarComoDisponible();
+                System.out.println("Recurso devuelto y marcado como disponible.");
+            }
+        }
+    }
+
+    private void asignarReservaComoPrestamo(Reserva reserva) {
+        Prestamo nuevoPrestamo = crearPrestamo(reserva.getUsuario(), reserva.getRecurso());
+        guardarPrestamo(nuevoPrestamo);
+
+        if (reserva.getRecurso() instanceof Prestable prestable) {
+            prestable.marcarComoNoDisponible();
+        }
+        reserva.completar();
+    }
 
     public void registrarPrestamo(Scanner scanner){
         while (true){
