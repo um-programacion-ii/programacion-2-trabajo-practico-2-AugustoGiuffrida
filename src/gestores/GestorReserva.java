@@ -121,6 +121,7 @@ public class GestorReserva {
         for(Reserva reserva: colaReservas){
             if(reserva.getId() == id && reserva.getEstado().equals(estadoReserva.ACTIVA)){
                 reserva.cancelar();
+                System.out.println("La reserva se cancelo correctamente");
                 encontrada = true;
             }
         }
@@ -138,6 +139,7 @@ public class GestorReserva {
         for(Reserva reserva: colaReservas){
             if(reserva.getId() == id && reserva.getEstado().equals(estadoReserva.ACTIVA)){
                 reserva.completar();
+                System.out.println("La reserva se completo correctamente");
                 encontrada = true;
             }
         }

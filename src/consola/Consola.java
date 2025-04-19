@@ -84,7 +84,8 @@ public class Consola {
 
             switch (opcion) {
                 case 1:
-                    gestorReserva.registrarReserva(prioridadReserva.ALTA,scanner);
+                    prioridadReserva prioridad = seleccionarPrioridad(scanner);
+                    gestorReserva.registrarReserva(prioridad,scanner);
                     break;
                 case 2:
                     gestorReserva.cancelarReserva(scanner);
@@ -101,6 +102,21 @@ public class Consola {
                 default:
                     System.out.println("Opción inválida");
             }
+        }
+    }
+
+    public prioridadReserva seleccionarPrioridad(Scanner scanner){
+        System.out.println("1. Alta\n2. Media\n3. Baja");
+        System.out.print("Seleccione prioridad:");
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        switch (opcion){
+            case 1: return prioridadReserva.ALTA;
+            case 2: return prioridadReserva.MEDIA;
+            case 3: return prioridadReserva.BAJA;
+            default:
+                System.out.println("Opción inválida. Se asigna prioridad MEDIA por defecto.");
+                return prioridadReserva.MEDIA;
         }
     }
 
