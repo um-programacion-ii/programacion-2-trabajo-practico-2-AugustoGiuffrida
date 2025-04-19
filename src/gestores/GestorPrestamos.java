@@ -19,13 +19,15 @@ public class GestorPrestamos {
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
     private GestorReserva gestorReserva;
+    private GestorNotificaciones gestorNotificaciones;
 
-    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario, GestorReserva gestorReserva){
+    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario, GestorReserva gestorReserva, GestorNotificaciones gestorNotificaciones){
         GestorPrestamos.contadorPrestamos = contadorPrestamos;
         this.prestamos = prestamos;
         this.gestorUsuario = gestorUsuario;
         this.gestorRecursos = gestorRecursos;
         this.gestorReserva = gestorReserva;
+        this.gestorNotificaciones = gestorNotificaciones;
     }
 
     public void listarPrestamos(){
@@ -92,12 +94,10 @@ public class GestorPrestamos {
 
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
                 guardarPrestamo(prestamo);
-
+                gestorNotificaciones.notificar("Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
                 if (recurso instanceof Prestable prestable) {
                     prestable.marcarComoNoDisponible();
                 }
-
-                System.out.println("Préstamo registrado con éxito.");
                 break;
 
             } catch (UsuarioNoEncontradoException | RecursoNoDisponibleException | IllegalArgumentException error){
@@ -107,7 +107,6 @@ public class GestorPrestamos {
                 scanner.nextLine();
             }
         }
-
     }
 
     public Usuario solicitarUsuario(Scanner scanner) throws UsuarioNoEncontradoException{

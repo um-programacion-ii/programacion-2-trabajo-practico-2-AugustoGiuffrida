@@ -1,10 +1,7 @@
 package src.consola;
 import src.enums.prioridadReserva;
-import src.gestores.GestorPrestamos;
-import src.gestores.GestorReserva;
+import src.gestores.*;
 import src.modelos.*;
-import src.gestores.GestorUsuario;
-import src.gestores.GestorRecursos;
 import src.servicios.ServicioNotificacionesEmail;
 import src.enums.categoriaRecurso;
 
@@ -15,7 +12,7 @@ public class Consola {
     private GestorRecursos gestorRecursos;
     private GestorPrestamos gestorPrestamos;
     private GestorReserva gestorReserva;
-    private ServicioNotificacionesEmail servicioNotificacionesEmail;
+    private GestorNotificaciones gestorNotificaciones;
     private Scanner scanner;
 
     public Consola(){
@@ -23,11 +20,11 @@ public class Consola {
         List<RecursoDigital> recursoDigitalList = new ArrayList<>();
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
-        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
-        this.gestorUsuario = new GestorUsuario(usuarios, servicioNotificacionesEmail);
-        this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, 1);
-        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva);
+        this.gestorNotificaciones = new GestorNotificaciones();
+        this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
+        this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
+        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
     }
 
     public void iniciar(){

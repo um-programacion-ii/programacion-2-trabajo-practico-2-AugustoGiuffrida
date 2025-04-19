@@ -7,11 +7,11 @@ import java.util.*;
 
 public class GestorUsuario {
     private Map<String, Usuario> usuarios;
-    private ServicioNotificacionesEmail servicioNotificacionesEmail;
+    private GestorNotificaciones gestorNotificaciones;
 
-    public GestorUsuario(Map<String, Usuario> usuarios, ServicioNotificacionesEmail servicioNotificacionesEmail){
+    public GestorUsuario(Map<String, Usuario> usuarios, GestorNotificaciones gestorNotificaciones){
         this.usuarios = usuarios;
-        this.servicioNotificacionesEmail = servicioNotificacionesEmail;
+        this.gestorNotificaciones = gestorNotificaciones;
     }
 
     public void listarUsuarios() {
@@ -107,8 +107,7 @@ public class GestorUsuario {
     public void registrarNuevoUsuario(Scanner scanner){
         Usuario nuevo = crearUsuario(scanner);
         usuarios.put(nuevo.getEmail().toLowerCase(),nuevo);
-        servicioNotificacionesEmail.establecerDestinatario(nuevo.getEmail());
-        System.out.println(servicioNotificacionesEmail.enviarNotificacion("¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!"));;
+        gestorNotificaciones.notificar("¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!");
     }
 
     public int cantidadUsuarios(Scanner scanner){
