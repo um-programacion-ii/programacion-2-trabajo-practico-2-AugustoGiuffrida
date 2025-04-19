@@ -18,11 +18,13 @@ public class GestorReserva {
     private BlockingQueue<Reserva> colaReservas = new PriorityBlockingQueue<>();
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
+    private GestorNotificaciones gestorNotificaciones;
     private static int contadorReserva = 1;
 
-    public GestorReserva(GestorRecursos gestorRecursos, GestorUsuario gestorUsuario , int contadorReserva){
+    public GestorReserva(GestorRecursos gestorRecursos, GestorUsuario gestorUsuario ,GestorNotificaciones gestorNotificaciones , int contadorReserva){
         this.gestorUsuario = gestorUsuario;
         this.gestorRecursos = gestorRecursos;
+        this.gestorNotificaciones = gestorNotificaciones;
         GestorReserva.contadorReserva = contadorReserva;
     }
 
@@ -37,7 +39,7 @@ public class GestorReserva {
                 Reserva reserva = crearReserva(usuario, recurso, prioridad);
                 guardarReserva(reserva);
 
-                System.out.println("Reserva registrada con éxito.");
+                gestorNotificaciones.notificar("Reserva creada: " + recurso.getTitulo() + " para " + usuario.getEmail());
                 break;
 
             } catch (UsuarioNoEncontradoException | RecursoNoDisponibleException | IllegalArgumentException error){
