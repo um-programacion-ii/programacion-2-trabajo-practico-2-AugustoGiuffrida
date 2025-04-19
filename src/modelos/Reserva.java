@@ -3,7 +3,7 @@ import  src.enums.estadoReserva;
 import  src.enums.prioridadReserva;
 import java.util.Date;
 
-public class Reserva {
+public class Reserva implements Comparable<Reserva> {
     private int id;
     private Usuario usuario;
     private RecursoDigital recurso;
@@ -67,6 +67,16 @@ public class Reserva {
                 " | Prioridad: " + prioridad +
                 " | Estado: " + estado;
 
+    }
+
+    @Override
+    public int compareTo(Reserva otra){
+        // < 0 ->Segundo termino prioridad mayor // > 0 -> Primer termino prioridad mayor
+        int prioridadCmp = this.getPrioridad().ordinal() - otra.getPrioridad().ordinal();
+        if (prioridadCmp !=0){
+            return prioridadCmp;
+        }
+        return this.getFechaSolicitud().compareTo(otra.getFechaSolicitud());
     }
 
 }

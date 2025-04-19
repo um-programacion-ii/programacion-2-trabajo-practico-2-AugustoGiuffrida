@@ -1,5 +1,6 @@
 package src.consola;
 import src.gestores.GestorPrestamos;
+import src.gestores.GestorReserva;
 import src.modelos.*;
 import src.gestores.GestorUsuario;
 import src.gestores.GestorRecursos;
@@ -12,6 +13,7 @@ public class Consola {
     private GestorUsuario gestorUsuario;
     private GestorRecursos gestorRecursos;
     private GestorPrestamos gestorPrestamos;
+    private GestorReserva gestorReserva;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private Scanner scanner;
 
@@ -23,7 +25,8 @@ public class Consola {
         this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
         this.gestorUsuario = new GestorUsuario(usuarios, servicioNotificacionesEmail);
-        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario);
+        this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, 1);
+        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva);
     }
 
     public void iniciar(){
