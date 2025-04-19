@@ -1,4 +1,5 @@
 package src.consola;
+import src.enums.prioridadReserva;
 import src.gestores.GestorPrestamos;
 import src.gestores.GestorReserva;
 import src.modelos.*;
@@ -37,7 +38,8 @@ public class Consola {
             System.out.println("1. Gestionar usuarios");
             System.out.println("2. Gestionar recursos");
             System.out.println("3. Gestionar prestamos");
-            System.out.println("4. Salir");
+            System.out.println("4. Gestionar reservas");
+            System.out.println("5. Salir");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -54,6 +56,9 @@ public class Consola {
                     menuPrestamos();
                     break;
                 case 4:
+                    menuReservas();
+                    break;
+                case 5:
                     salir = true;
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
@@ -62,6 +67,43 @@ public class Consola {
             }
         }
     }
+
+    public void menuReservas() {
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n==== Menú Reservas ====");
+            System.out.println("1. Añadir reserva");
+            System.out.println("2. Cancelar reserva");
+            System.out.println("3. Completar reserva");
+            System.out.println("4. Mostrar estado de reservas");
+            System.out.println("5. Volver al menú principal");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    gestorReserva.registrarReserva(prioridadReserva.ALTA,scanner);
+                    break;
+                case 2:
+                    gestorReserva.cancelarReserva(scanner);
+                    break;
+                case 3:
+                    gestorReserva.completarReserva(scanner);
+                    break;
+                case 4:
+                    gestorReserva.mostrarReservas();
+                    break;
+                case 5:
+                    volver = true;
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
+        }
+    }
+
 
     public void menuPrestamos(){
         boolean volver = false;
