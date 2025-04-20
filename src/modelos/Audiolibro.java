@@ -30,12 +30,12 @@ public class Audiolibro extends RecursoDigital implements Prestable {
     //setters
 
     @Override
-    public void marcarComoNoDisponible() {
+    public synchronized void marcarComoNoDisponible() {
         disponible = false;
     }
 
     @Override
-    public void marcarComoDisponible() {
+    public synchronized void marcarComoDisponible() {
         disponible = true;
     }
 

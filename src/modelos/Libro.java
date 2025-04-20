@@ -49,12 +49,12 @@ public class Libro extends RecursoDigital implements Prestable, Renovable {
     }
 
     @Override
-    public void marcarComoNoDisponible() {
+    public synchronized void marcarComoNoDisponible() {
         disponible = false;
     }
 
     @Override
-    public void marcarComoDisponible() {
+    public synchronized void marcarComoDisponible() {
         disponible = true;
     }
 

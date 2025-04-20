@@ -36,7 +36,7 @@ public class GestorPrestamos {
         }
     }
 
-    public void devolverPrestamo(Scanner scanner){
+    public synchronized void devolverPrestamo(Scanner scanner){
         System.out.print("Ingrese ID del prestamo: ");
         int id = scanner.nextInt();
         scanner.nextLine();
@@ -45,6 +45,7 @@ public class GestorPrestamos {
         for (Prestamo prestamo : prestamos) {
             if (id == prestamo.getId()){
                 encontrado = true;
+                System.out.println("Hilo " + Thread.currentThread().getName() + " está intentando devolver un préstamo...");
                 if (estadoPrestamo.ACTIVO == prestamo.getEstado()) {
                     prestamo.setEstado(estadoPrestamo.DEVUELTO);
                     manejarRecursoDevuelto(prestamo);
@@ -84,7 +85,7 @@ public class GestorPrestamos {
         reserva.completar();
     }
 
-    public void registrarPrestamo(Scanner scanner){
+    public synchronized void registrarPrestamo(Scanner scanner){
         while (true){
             try {
                 Usuario usuario = solicitarUsuario(scanner);
@@ -93,6 +94,7 @@ public class GestorPrestamos {
                 validarRecurso(recurso);
 
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
+                System.out.println("Hilo " + Thread.currentThread().getName() + " está intentando registrar un préstamo...");
                 guardarPrestamo(prestamo);
                 gestorNotificaciones.notificar(usuario.getEmail(), "Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
                 if (recurso instanceof Prestable prestable) {
@@ -137,7 +139,8 @@ public class GestorPrestamos {
         return new Prestamo(contadorPrestamos++, recurso, usuario, fechaInicio, fechaVencimiento, estadoPrestamo.ACTIVO);
     }
 
-    public void guardarPrestamo(Prestamo prestamo){
+    public synchronized void guardarPrestamo(Prestamo prestamo){
+        System.out.println("Hilo " + Thread.currentThread().getName() + " guardó el préstamo con ID: " + prestamo.getId());
         prestamos.add(prestamo);
     }
 
