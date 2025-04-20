@@ -4,7 +4,7 @@ public class ServicioNotificacionesEmail implements ServicioNotificaciones {
     private String emailDestino;
 
     public ServicioNotificacionesEmail(String emailDestino){
-        this.emailDestino = emailDestino;
+        this.emailDestino = null;
     }
 
     @Override

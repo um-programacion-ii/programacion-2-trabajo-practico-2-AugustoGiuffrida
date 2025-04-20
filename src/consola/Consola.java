@@ -22,7 +22,7 @@ public class Consola {
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
-        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("soporte@biblioteca.com");
+        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
         this.gestorNotificaciones = new GestorNotificaciones();
         this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);

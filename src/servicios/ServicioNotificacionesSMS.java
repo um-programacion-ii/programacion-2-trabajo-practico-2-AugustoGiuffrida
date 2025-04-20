@@ -4,7 +4,7 @@ public class ServicioNotificacionesSMS implements ServicioNotificaciones{
     private String numDestino;
 
     public ServicioNotificacionesSMS(String numDestino){
-        this.numDestino = numDestino;
+        this.numDestino = null;
     }
 
     @Override

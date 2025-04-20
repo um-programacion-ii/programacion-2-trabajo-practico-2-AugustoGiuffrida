@@ -16,8 +16,9 @@ public class GestorNotificaciones {
         servicios.add(servicio);
     }
 
-    public void notificar(String mensaje){
+    public void notificar(String contacto ,String mensaje){
         for (ServicioNotificaciones servicio : servicios){
+            servicio.establecerDestinatario(contacto);
             String resultado = servicio.enviarNotificacion(mensaje);
             System.out.println(resultado);
         }

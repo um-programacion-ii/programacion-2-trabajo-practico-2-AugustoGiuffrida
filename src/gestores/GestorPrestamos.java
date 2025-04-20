@@ -94,7 +94,7 @@ public class GestorPrestamos {
 
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
                 guardarPrestamo(prestamo);
-                gestorNotificaciones.notificar("Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
+                gestorNotificaciones.notificar(usuario.getEmail(), "Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
                 if (recurso instanceof Prestable prestable) {
                     prestable.marcarComoNoDisponible();
                 }
