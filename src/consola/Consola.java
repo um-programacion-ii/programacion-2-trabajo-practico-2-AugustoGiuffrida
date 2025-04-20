@@ -13,6 +13,7 @@ public class Consola {
     private GestorPrestamos gestorPrestamos;
     private GestorReserva gestorReserva;
     private GestorNotificaciones gestorNotificaciones;
+    private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private Scanner scanner;
 
     public Consola(){
@@ -21,7 +22,9 @@ public class Consola {
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
+        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("soporte@biblioteca.com");
         this.gestorNotificaciones = new GestorNotificaciones();
+        this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
         this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
         this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
