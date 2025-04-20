@@ -3,13 +3,18 @@ package src.servicios;
 public class ServicioNotificacionesSMS implements ServicioNotificaciones{
     private String numDestino;
 
-    public ServicioNotificacionesSMS(String numDestino){
-        this.numDestino = numDestino;
+    public ServicioNotificacionesSMS(){
+        this.numDestino = null;
     }
 
     @Override
     public  void establecerDestinatario(String contacto){
         this.numDestino = contacto;
+    }
+
+    @Override
+    public String getTipo() {
+        return "sms";
     }
 
     @Override

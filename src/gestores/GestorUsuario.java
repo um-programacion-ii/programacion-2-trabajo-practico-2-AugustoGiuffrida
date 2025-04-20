@@ -107,7 +107,7 @@ public class GestorUsuario {
     public void registrarNuevoUsuario(Scanner scanner){
         Usuario nuevo = crearUsuario(scanner);
         usuarios.put(nuevo.getEmail().toLowerCase(),nuevo);
-        gestorNotificaciones.notificar("¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!");
+        gestorNotificaciones.notificar(nuevo.getEmail(),"¡Bienvenido/a al sistema, " + nuevo.getNombre() + "!");
     }
 
     public int cantidadUsuarios(Scanner scanner){

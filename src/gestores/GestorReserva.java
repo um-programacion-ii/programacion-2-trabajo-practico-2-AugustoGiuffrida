@@ -39,7 +39,7 @@ public class GestorReserva {
                 Reserva reserva = crearReserva(usuario, recurso, prioridad);
                 guardarReserva(reserva);
 
-                gestorNotificaciones.notificar("Reserva creada: " + recurso.getTitulo() + " para " + usuario.getEmail());
+                gestorNotificaciones.notificar(usuario.getEmail(), "Reserva creada: " + recurso.getTitulo() + " para " + usuario.getEmail());
                 break;
 
             } catch (UsuarioNoEncontradoException | RecursoNoDisponibleException | IllegalArgumentException error){

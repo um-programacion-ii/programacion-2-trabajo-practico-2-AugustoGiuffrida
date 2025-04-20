@@ -3,14 +3,20 @@ package src.servicios;
 public class ServicioNotificacionesEmail implements ServicioNotificaciones {
     private String emailDestino;
 
-    public ServicioNotificacionesEmail(String emailDestino){
-        this.emailDestino = emailDestino;
+    public ServicioNotificacionesEmail(){
+        this.emailDestino = null;
     }
 
     @Override
     public  void establecerDestinatario(String contacto){
         this.emailDestino = contacto;
     }
+
+    @Override
+    public String getTipo() {
+        return "email";
+    }
+
 
     @Override
     public String enviarNotificacion(String mensaje){
