@@ -22,7 +22,7 @@ public class Consola {
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
-        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail("");
+        this.servicioNotificacionesEmail = new ServicioNotificacionesEmail();
         this.gestorNotificaciones = new GestorNotificaciones();
         this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
@@ -60,6 +60,7 @@ public class Consola {
                     break;
                 case 5:
                     salir = true;
+                    gestorNotificaciones.cerrar();
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
                 default:
