@@ -1,4 +1,5 @@
 package src.consola;
+import src.alertas.AlertaVencimiento;
 import src.enums.prioridadReserva;
 import src.gestores.*;
 import src.modelos.*;
@@ -15,6 +16,7 @@ public class Consola {
     private GestorNotificaciones gestorNotificaciones;
     private GestorReportes gestorReportes;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
+    private AlertaVencimiento alertaVencimiento;
     private Scanner scanner;
 
     public Consola(){
@@ -30,6 +32,9 @@ public class Consola {
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
         this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
         this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
+        AlertaVencimiento alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
+        Thread hiloAlertas = new Thread(alertaVencimiento);
+        hiloAlertas.start();
     }
 
     public void iniciar(){
@@ -68,6 +73,7 @@ public class Consola {
                     salir = true;
                     scanner.close();
                     gestorNotificaciones.cerrar();
+                    alertaVencimiento.detener();
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
                 default:
@@ -168,8 +174,9 @@ public class Consola {
             System.out.println("\n==== Menú Prestamos ====");
             System.out.println("1. Añadir Prestamos");
             System.out.println("2. Devolver Prestamos");
-            System.out.println("3. Listar Prestamos");
-            System.out.println("4. Volver al menú principal");
+            System.out.println("3. Renovar Prestamos");
+            System.out.println("4. Listar Prestamos");
+            System.out.println("5. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -183,9 +190,12 @@ public class Consola {
                     gestorPrestamos.devolverPrestamo(scanner);
                     break;
                 case 3:
-                    gestorPrestamos.listarPrestamos();
+                    gestorPrestamos.renovarPrestamo(scanner);
                     break;
                 case 4:
+                    gestorPrestamos.listarPrestamos();
+                    break;
+                case 5:
                     volver = true;
                     break;
                 default:

@@ -4,6 +4,7 @@ import src.enums.estadoPrestamo;
 import src.exepciones.RecursoNoDisponibleException;
 import src.exepciones.UsuarioNoEncontradoException;
 import src.interfaces.Prestable;
+import src.interfaces.Renovable;
 import src.modelos.Prestamo;
 import src.modelos.RecursoDigital;
 import src.modelos.Reserva;
@@ -75,7 +76,7 @@ public class GestorPrestamos {
         }
     }
 
-    private void asignarReservaComoPrestamo(Reserva reserva) {
+    public void asignarReservaComoPrestamo(Reserva reserva) {
         Prestamo nuevoPrestamo = crearPrestamo(reserva.getUsuario(), reserva.getRecurso());
         guardarPrestamo(nuevoPrestamo);
 
@@ -84,6 +85,58 @@ public class GestorPrestamos {
         }
         reserva.completar();
     }
+
+    public boolean puedeRenovarse(Prestamo prestamo) {
+        if (prestamo.getEstado() != estadoPrestamo.ACTIVO) {
+            System.out.println("El préstamo no está activo y no puede renovarse.");
+            return false;
+        }
+
+        RecursoDigital recurso = prestamo.getRecurso();
+
+        if (!(recurso instanceof Renovable)) {
+            System.out.println("Este recurso no permite renovaciones.");
+            return false;
+        }
+
+        Renovable renovable = (Renovable) recurso;
+
+        if (!renovable.permiteRenovacion()) {
+            System.out.println("Este recurso no se puede renovar actualmente.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void realizarRenovacion(Prestamo prestamo) {
+        Date nuevaFecha = new Date(prestamo.getFechaVencimiento().getTime() + (1L * 24 * 60 * 60 * 1000));
+        prestamo.setFechaVencimiento(nuevaFecha);
+
+        gestorNotificaciones.notificar(prestamo.getUsuario().getEmail(), "Se ha renovado el préstamo del recurso: " + prestamo.getRecurso().getTitulo() + ". Nueva fecha de vencimiento: " + nuevaFecha);
+
+        System.out.println("Préstamo renovado exitosamente.");
+    }
+
+
+    public synchronized void renovarPrestamo(Scanner scanner) {
+        System.out.print("Ingrese ID del préstamo a renovar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        for (Prestamo prestamo : prestamos) {
+            if (prestamo.getId() == id) {
+                if (puedeRenovarse(prestamo)) {
+                    realizarRenovacion(prestamo);
+                }
+                return;
+            }
+        }
+
+        System.out.println("No se encontró ningún préstamo con el ID: " + id);
+    }
+
+
 
     public synchronized void registrarPrestamo(Scanner scanner){
         while (true){
