@@ -13,6 +13,7 @@ public class Consola {
     private GestorPrestamos gestorPrestamos;
     private GestorReserva gestorReserva;
     private GestorNotificaciones gestorNotificaciones;
+    private GestorReportes gestorReportes;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private Scanner scanner;
 
@@ -23,6 +24,7 @@ public class Consola {
         this.scanner = new Scanner(System.in);
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
         this.servicioNotificacionesEmail = new ServicioNotificacionesEmail();
+        this.gestorReportes= new GestorReportes(prestamos);
         this.gestorNotificaciones = new GestorNotificaciones();
         this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
@@ -39,7 +41,8 @@ public class Consola {
             System.out.println("2. Gestionar recursos");
             System.out.println("3. Gestionar prestamos");
             System.out.println("4. Gestionar reservas");
-            System.out.println("5. Salir");
+            System.out.println("5. Gestionar reportes");
+            System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -59,7 +62,11 @@ public class Consola {
                     menuReservas();
                     break;
                 case 5:
+                    menuReportes();
+                    break;
+                case 6:
                     salir = true;
+                    scanner.close();
                     gestorNotificaciones.cerrar();
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
@@ -118,6 +125,39 @@ public class Consola {
             default:
                 System.out.println("Opción inválida. Se asigna prioridad MEDIA por defecto.");
                 return prioridadReserva.MEDIA;
+        }
+    }
+
+
+    public void menuReportes() {
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n==== Menú Reportes ====");
+            System.out.println("1. Recursos más prestados");
+            System.out.println("2. Usuarios más activos");
+            System.out.println("3. Estadísticas por categoría");
+            System.out.println("4. Volver al menú principal");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    gestorReportes.mostrarMasPrestados();
+                    break;
+                case 2:
+                    gestorReportes.mostrarUsuariosMasActivos();
+                    break;
+                case 3:
+                    gestorReportes.mostrarEstadisticasPorCategoria();
+                    break;
+                case 4:
+                    volver = true;
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+            }
         }
     }
 
