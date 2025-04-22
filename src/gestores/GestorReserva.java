@@ -115,7 +115,7 @@ public class GestorReserva {
 
 
     public void cancelarReserva(Scanner scanner){
-        System.out.println("Ingrese ID: ");
+        System.out.print("Ingrese ID de la reserva: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
@@ -133,7 +133,7 @@ public class GestorReserva {
     }
 
     public void completarReserva(Scanner scanner){
-        System.out.println("Ingrese ID: ");
+        System.out.println("Ingrese ID de la reserva: ");
         int id = scanner.nextInt();
         scanner.nextLine();
 
