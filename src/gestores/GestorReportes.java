@@ -4,16 +4,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import src.enums.categoriaRecurso;
 import src.modelos.Prestamo;
 
 public class GestorReportes {
     private List<Prestamo> prestamos;
+    private final ExecutorService executor;
 
     public  GestorReportes(List<Prestamo> prestamos){
         this.prestamos = prestamos;
+        this.executor = Executors.newSingleThreadExecutor();
     }
+
+    public void generarTodosLosReportes() {
+        System.out.println("\n================= GENERANDO REPORTES =================\n");
+        mostrarMasPrestados();
+        mostrarUsuariosMasActivos();
+        mostrarEstadisticasPorCategoria();
+        System.out.println("\n======================================================");
+    }
+
 
     public void mostrarMasPrestados(){
         System.out.println("\nRecursos más prestados:");
@@ -54,7 +67,6 @@ public class GestorReportes {
 
     }
 
-
     public void imprimirResultadosOrdenados(Map<String, Integer> mapa, String unidad){
         List<Map.Entry<String,Integer>> listaOrdenada = new ArrayList<>(mapa.entrySet());
 
@@ -63,5 +75,9 @@ public class GestorReportes {
         for (Map.Entry<String, Integer> entrada : listaOrdenada) {
             System.out.println("- " + entrada.getKey() + ": " + entrada.getValue() + " " + unidad);
         }
+    }
+
+    public void cerrar(){
+        executor.shutdown();
     }
 }

@@ -18,7 +18,6 @@ public class Consola {
     private GestorReportes gestorReportes;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private AlertaVencimiento alertaVencimiento;
-    private GestorRecordatorios gestorRecordatorios;
 
     private Scanner scanner;
 
@@ -27,7 +26,6 @@ public class Consola {
         List<RecursoDigital> recursoDigitalList = new ArrayList<>();
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
-        this.gestorRecordatorios = new GestorRecordatorios();
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
         this.servicioNotificacionesEmail = new ServicioNotificacionesEmail();
         this.gestorReportes= new GestorReportes(prestamos);
@@ -35,10 +33,11 @@ public class Consola {
         this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
         this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
-        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones, gestorRecordatorios);
+        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
         AlertaVencimiento alerta = new AlertaVencimiento(prestamos, gestorPrestamos);
         this.alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
 
+        //Datos de prueba
         Date hoy = new Date(); // hoy
         Date manana = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // mañana
 
@@ -84,12 +83,13 @@ public class Consola {
                     menuReservas();
                     break;
                 case 5:
-                    menuReportes();
+                    gestorReportes.generarTodosLosReportes();
                     break;
                 case 6:
                     salir = true;
                     scanner.close();
                     gestorNotificaciones.cerrar();
+                    gestorReportes.cerrar();
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
                 default:
@@ -147,39 +147,6 @@ public class Consola {
             default:
                 System.out.println("Opción inválida. Se asigna prioridad MEDIA por defecto.");
                 return prioridadReserva.MEDIA;
-        }
-    }
-
-
-    public void menuReportes() {
-        boolean volver = false;
-        while (!volver) {
-            System.out.println("\n==== Menú Reportes ====");
-            System.out.println("1. Recursos más prestados");
-            System.out.println("2. Usuarios más activos");
-            System.out.println("3. Estadísticas por categoría");
-            System.out.println("4. Volver al menú principal");
-            System.out.print("Seleccione una opción: ");
-
-            int opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcion) {
-                case 1:
-                    gestorReportes.mostrarMasPrestados();
-                    break;
-                case 2:
-                    gestorReportes.mostrarUsuariosMasActivos();
-                    break;
-                case 3:
-                    gestorReportes.mostrarEstadisticasPorCategoria();
-                    break;
-                case 4:
-                    volver = true;
-                    break;
-                default:
-                    System.out.println("Opción inválida");
-            }
         }
     }
 
@@ -297,7 +264,7 @@ public class Consola {
         while (!volver) {
             System.out.println("\n==== Menú filtrado Recursos ====");
             System.out.println("1. Listar todos los recursos");
-            System.out.println("2. Listar recursos que se pueden prestar");
+            System.out.println("2. Listar recursos prestables");
             System.out.println("3. Listar recursos renovables");
             System.out.println("4. Filtrar por categoria");
             System.out.println("5. Volver al menú recursos");
