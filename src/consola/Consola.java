@@ -1,5 +1,6 @@
 package src.consola;
 import src.alertas.AlertaVencimiento;
+import src.enums.estadoPrestamo;
 import src.enums.prioridadReserva;
 import src.gestores.*;
 import src.modelos.*;
@@ -32,15 +33,29 @@ public class Consola {
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
         this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
         this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
-        AlertaVencimiento alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
-        Thread hiloAlertas = new Thread(alertaVencimiento);
-        hiloAlertas.start();
+        AlertaVencimiento alerta = new AlertaVencimiento(prestamos, gestorPrestamos);
+        this.alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
+
+        Date hoy = new Date(); // hoy
+        Date manana = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // mañana
+
+        Usuario usuarioTest = new Usuario("Test",33 ,"test@example.com","22222");
+        RecursoDigital recursoTest = new Libro("Test Libro", "pepe", 2000, true, 1000,"genero");
+
+        usuarios.put(usuarioTest.getEmail(),usuarioTest);
+        recursoDigitalList.add(recursoTest);
+
+        Prestamo prestamoHoy = new Prestamo(99, recursoTest, usuarioTest, hoy, hoy, estadoPrestamo.ACTIVO);
+        Prestamo prestamoManana = new Prestamo(100, recursoTest, usuarioTest, hoy, manana, estadoPrestamo.ACTIVO);
+
+        prestamos.add(prestamoHoy);
+        prestamos.add(prestamoManana);
     }
 
     public void iniciar(){
         boolean salir = false;
-
         while (!salir){
+            alertaVencimiento.verificarAlertas(scanner);
             System.out.println("\n==== Menú Principal ====");
             System.out.println("1. Gestionar usuarios");
             System.out.println("2. Gestionar recursos");
@@ -49,7 +64,6 @@ public class Consola {
             System.out.println("5. Gestionar reportes");
             System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
-
             int opcion = scanner.nextInt();
             scanner.nextLine();
 
@@ -73,7 +87,6 @@ public class Consola {
                     salir = true;
                     scanner.close();
                     gestorNotificaciones.cerrar();
-                    alertaVencimiento.detener();
                     System.out.println("Saliendo, ¡hasta luego!");
                     break;
                 default:

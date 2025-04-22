@@ -110,7 +110,7 @@ public class GestorPrestamos {
     }
 
     public void realizarRenovacion(Prestamo prestamo) {
-        Date nuevaFecha = new Date(prestamo.getFechaVencimiento().getTime() + (1L * 24 * 60 * 60 * 1000));
+        Date nuevaFecha = new Date(prestamo.getFechaVencimiento().getTime() + (7L * 24 * 60 * 60 * 1000));
         prestamo.setFechaVencimiento(nuevaFecha);
 
         gestorNotificaciones.notificar(prestamo.getUsuario().getEmail(), "Se ha renovado el préstamo del recurso: " + prestamo.getRecurso().getTitulo() + ". Nueva fecha de vencimiento: " + nuevaFecha);

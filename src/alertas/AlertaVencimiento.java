@@ -1,71 +1,53 @@
 package src.alertas;
 
-import src.gestores.GestorPrestamos;
-import src.modelos.Prestamo;
+import src.enums.estadoPrestamo;
 import src.interfaces.Renovable;
-import java.time.LocalDate;
+import src.modelos.Prestamo;
+import src.gestores.GestorPrestamos;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
-
-public class AlertaVencimiento implements Runnable{
+public class AlertaVencimiento {
     private List<Prestamo> prestamos;
-    private boolean activo = true;
     private GestorPrestamos gestorPrestamos;
 
-    public AlertaVencimiento(List<Prestamo> prestamos, GestorPrestamos gestorPrestamos){
+    public AlertaVencimiento(List<Prestamo> prestamos, GestorPrestamos gestorPrestamos) {
         this.prestamos = prestamos;
         this.gestorPrestamos = gestorPrestamos;
     }
 
-    public void detener(){
-        this.activo = false;
-    }
+    public void verificarAlertas(Scanner scanner) {
+        Date hoy = new Date();
 
-    public void run(){
-        while (activo){
-            LocalDate hoy = LocalDate.now();
-            for(Prestamo prestamo : prestamos){
-                Date fechaRaw = prestamo.getFechaVencimiento();
+        for (Prestamo prestamo : prestamos) {
+            if (prestamo.getEstado() != estadoPrestamo.DEVUELTO) {
+                long diasRestantes = calcularDiferenciaEnDias(hoy, prestamo.getFechaVencimiento());
 
-                LocalDate fechaVencimiento = fechaRaw.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                if (diasRestantes <= 1) {
+                    System.out.println("\n⚠️ ALERTA DE VENCIMIENTO ⚠️");
+                    System.out.println("Recurso: '" + prestamo.getRecurso().getTitulo() + "'");
+                    System.out.println("Vence el: " + prestamo.getFechaVencimiento());
 
-                if(fechaVencimiento.equals(hoy)){
-                    System.out.println("Prestamo vence hoy");
-                } else if(fechaVencimiento.minusDays(1).equals(hoy)){
-                    System.out.println("Prestamo vence mañana");
-                }
-            }
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e){
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
+                    if (prestamo.getRecurso() instanceof Renovable) {
+                        System.out.print("¿Desea renovar el préstamo? (s/n): ");
+                        String opcion = scanner.nextLine();
 
-    private void mostrarAlerta(String mensaje, Prestamo prestamo) {
-        System.out.println("\n========================");
-        System.out.println(mensaje);
-        System.out.println("Recurso: " + prestamo.getRecurso().getTitulo());
-        System.out.println("Usuario: " + prestamo.getUsuario().getNombre());
-        System.out.println("Fecha de devolución: " + prestamo.getFechaVencimiento());
-
-        if(prestamo.getRecurso() instanceof Renovable){
-            System.out.println("¿Desea renovar este recurso? (s/n)");
-            Scanner scanner = new Scanner(System.in);
-            String respuesta = scanner.nextLine();
-
-            if(respuesta.equalsIgnoreCase("s")){
-                if (gestorPrestamos.puedeRenovarse(prestamo)) {
-                    gestorPrestamos.realizarRenovacion(prestamo);
+                        if (opcion.equalsIgnoreCase("s")) {
+                            if (gestorPrestamos.puedeRenovarse(prestamo)) {
+                                gestorPrestamos.realizarRenovacion(prestamo);
+                            }
+                        }
+                    }
                 }
             }
         }
-        System.out.println("========================\n");
     }
 
-
+    private long calcularDiferenciaEnDias(Date fecha1, Date fecha2) {
+        long diferenciaMillis = fecha2.getTime() - fecha1.getTime();
+        return TimeUnit.MILLISECONDS.toDays(diferenciaMillis);
+    }
 }
-
