@@ -84,7 +84,7 @@ public class Prestamo {
 
     @Override
     public String toString(){
-        return ("| id: " +id+ " | Fecha inicio: " +fechaInicio+ " | Fecha devolucion: " +fechaVencimiento+ " | Estado: "+estado);
+        return ("| id: " +id+ " | Recurso: " +recurso.getTitulo() + " | Usuario "+usuario.getEmail() +" | Fecha inicio: " +fechaInicio+ " | Fecha devolucion: " +fechaVencimiento+ " | Estado: "+estado);
     }
 
 }

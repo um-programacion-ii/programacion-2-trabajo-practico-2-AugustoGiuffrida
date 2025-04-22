@@ -23,7 +23,9 @@ public class GestorPrestamos {
     private GestorReserva gestorReserva;
     private GestorNotificaciones gestorNotificaciones;
 
-    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario, GestorReserva gestorReserva, GestorNotificaciones gestorNotificaciones){
+    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos,
+    GestorUsuario gestorUsuario, GestorReserva gestorReserva, GestorNotificaciones gestorNotificaciones){
+
         GestorPrestamos.contadorPrestamos = contadorPrestamos;
         this.prestamos = prestamos;
         this.gestorUsuario = gestorUsuario;
@@ -164,6 +166,7 @@ public class GestorPrestamos {
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
                 System.out.println("Hilo " + Thread.currentThread().getName() + " está intentando registrar un préstamo...");
                 guardarPrestamo(prestamo);
+
                 gestorNotificaciones.notificar(usuario.getEmail(), "Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
                 if (recurso instanceof Prestable prestable) {
                     prestable.marcarComoNoDisponible();
