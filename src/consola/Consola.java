@@ -18,6 +18,8 @@ public class Consola {
     private GestorReportes gestorReportes;
     private ServicioNotificacionesEmail servicioNotificacionesEmail;
     private AlertaVencimiento alertaVencimiento;
+    private GestorRecordatorios gestorRecordatorios;
+
     private Scanner scanner;
 
     public Consola(){
@@ -25,6 +27,7 @@ public class Consola {
         List<RecursoDigital> recursoDigitalList = new ArrayList<>();
         List<Prestamo> prestamos = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        this.gestorRecordatorios = new GestorRecordatorios();
         this.gestorRecursos = new GestorRecursos(recursoDigitalList);
         this.servicioNotificacionesEmail = new ServicioNotificacionesEmail();
         this.gestorReportes= new GestorReportes(prestamos);
@@ -32,7 +35,7 @@ public class Consola {
         this.gestorNotificaciones.agregarServicio(servicioNotificacionesEmail);
         this.gestorUsuario = new GestorUsuario(usuarios, gestorNotificaciones);
         this.gestorReserva = new GestorReserva(gestorRecursos,gestorUsuario, gestorNotificaciones ,1);
-        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones);
+        this.gestorPrestamos = new GestorPrestamos(1, prestamos, gestorRecursos, gestorUsuario, gestorReserva, gestorNotificaciones, gestorRecordatorios);
         AlertaVencimiento alerta = new AlertaVencimiento(prestamos, gestorPrestamos);
         this.alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
 

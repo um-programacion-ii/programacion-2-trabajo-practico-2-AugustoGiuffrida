@@ -1,6 +1,7 @@
 package src.gestores;
 
 import src.AlertaDisponibilidad;
+import src.enums.NivelUrgencia;
 import src.enums.estadoPrestamo;
 import src.exepciones.RecursoNoDisponibleException;
 import src.exepciones.UsuarioNoEncontradoException;
@@ -22,14 +23,19 @@ public class GestorPrestamos {
     private GestorRecursos gestorRecursos;
     private GestorReserva gestorReserva;
     private GestorNotificaciones gestorNotificaciones;
+    private GestorRecordatorios gestorRecordatorios;  // Nueva dependencia
 
-    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos, GestorUsuario gestorUsuario, GestorReserva gestorReserva, GestorNotificaciones gestorNotificaciones){
+    public GestorPrestamos(int contadorPrestamos, List<Prestamo> prestamos, GestorRecursos gestorRecursos,
+    GestorUsuario gestorUsuario, GestorReserva gestorReserva, GestorNotificaciones gestorNotificaciones,
+    GestorRecordatorios gestorRecordatorios){
+
         GestorPrestamos.contadorPrestamos = contadorPrestamos;
         this.prestamos = prestamos;
         this.gestorUsuario = gestorUsuario;
         this.gestorRecursos = gestorRecursos;
         this.gestorReserva = gestorReserva;
         this.gestorNotificaciones = gestorNotificaciones;
+        this.gestorRecordatorios = gestorRecordatorios;  // Nueva dependencia
     }
 
     public void listarPrestamos(){
@@ -164,7 +170,9 @@ public class GestorPrestamos {
                 Prestamo prestamo = crearPrestamo(usuario, recurso);
                 System.out.println("Hilo " + Thread.currentThread().getName() + " está intentando registrar un préstamo...");
                 guardarPrestamo(prestamo);
+
                 gestorNotificaciones.notificar(usuario.getEmail(), "Préstamo registrado: " + recurso.getTitulo() + " a " + usuario.getEmail());
+                gestorRecordatorios.generarRecordatorio("Préstamo registrado: " + recurso.getTitulo(), NivelUrgencia.INFO);
                 if (recurso instanceof Prestable prestable) {
                     prestable.marcarComoNoDisponible();
                 }
