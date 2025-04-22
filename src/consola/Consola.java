@@ -40,7 +40,7 @@ public class Consola {
         Date manana = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // mañana
 
         Usuario usuarioTest = new Usuario("Test",33 ,"test@example.com","22222");
-        RecursoDigital recursoTest = new Libro("Test Libro", "pepe", 2000, true, 1000,"genero");
+        RecursoDigital recursoTest = new Libro("libro", "pepe", 2000, false, 1000,"genero");
 
         usuarios.put(usuarioTest.getEmail(),usuarioTest);
         recursoDigitalList.add(recursoTest);

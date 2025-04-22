@@ -1,5 +1,6 @@
 package src.gestores;
 
+import src.AlertaDisponibilidad;
 import src.enums.estadoPrestamo;
 import src.exepciones.RecursoNoDisponibleException;
 import src.exepciones.UsuarioNoEncontradoException;
@@ -49,7 +50,8 @@ public class GestorPrestamos {
                 System.out.println("Hilo " + Thread.currentThread().getName() + " está intentando devolver un préstamo...");
                 if (estadoPrestamo.ACTIVO == prestamo.getEstado()) {
                     prestamo.setEstado(estadoPrestamo.DEVUELTO);
-                    manejarRecursoDevuelto(prestamo);
+                    //Devolucion automatica
+                    manejarRecursoDevuelto(prestamo,scanner);
                 } else {
                     System.out.println("El prestamo" + prestamo + " ya ha sido devuelto");
                 }
@@ -60,21 +62,34 @@ public class GestorPrestamos {
         }
     }
 
-    private void manejarRecursoDevuelto(Prestamo prestamo) {
+    private void manejarRecursoDevuelto(Prestamo prestamo, Scanner scanner) {
         RecursoDigital recursoDevuelto = prestamo.getRecurso();
 
         if (recursoDevuelto instanceof Prestable prestable) {
             Reserva siguienteReserva = gestorReserva.obtenerSiguienteReservaPorRecurso(recursoDevuelto);
 
             if (siguienteReserva != null) {
-                asignarReservaComoPrestamo(siguienteReserva);
-                System.out.println("El recurso fue prestado automáticamente al usuario con reserva prioritaria.");
+                Usuario usuario = siguienteReserva.getUsuario();
+                AlertaDisponibilidad alerta = new AlertaDisponibilidad(usuario, recursoDevuelto);
+                alerta.notificar();
+
+                if (alerta.isConfirmada()) {
+                    asignarReservaComoPrestamo(siguienteReserva);
+                    System.out.println("Préstamo realizado al usuario con reserva.");
+                } else {
+                    System.out.println("El usuario rechazó el préstamo. Se notificará al siguiente en la cola.");
+                    siguienteReserva.cancelar();
+
+                    manejarRecursoDevuelto(prestamo, scanner);
+                }
+
             } else {
                 prestable.marcarComoDisponible();
                 System.out.println("Recurso devuelto y marcado como disponible.");
             }
         }
     }
+
 
     public void asignarReservaComoPrestamo(Reserva reserva) {
         Prestamo nuevoPrestamo = crearPrestamo(reserva.getUsuario(), reserva.getRecurso());
