@@ -6,7 +6,177 @@
 Desarrollar un sistema de gestión de biblioteca digital que implemente los cinco principios SOLID, programación orientada a objetos, y conceptos avanzados de Java. El sistema deberá manejar diferentes tipos de recursos digitales, préstamos, reservas, y notificaciones en tiempo real.
 
 ## 👨‍🎓 Información del Alumno
-- **Nombre y Apellido**: [Nombre y Apellido del Alumno]
+- **Nombre y Apellido**: Augusto Giuffrida
+
+## 💻 Requisitos Previos
+
+Antes de ejecutar este proyecto, asegúrate de tener instalados los siguientes elementos:
+
+- **Java Development Kit (JDK)** versión 8 o superior  
+  👉 Puedes descargarlo desde: https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+
+- **IDE recomendado**: IntelliJ IDEA, Eclipse o NetBeans  
+  👉 También puedes compilar y ejecutar desde la terminal si lo preferís
+
+- **Git** instalado en el sistema  
+  👉 Descarga desde: https://git-scm.com/
+
+## ⚙️ Instrucciones para Compilar y Ejecutar
+
+### 📥 1. Clonar el repositorio
+```bash
+https://github.com/um-programacion-ii/programacion-2-trabajo-practico-2-AugustoGiuffrida.git
+cd programacion-2-trabajo-practico-1-AugustoGiuffrida
+```
+
+### 🛠️ 2. Compilar el proyecto
+Asegúrate de estar en la carpeta donde están los archivos `.java`
+```bash
+cd src
+```
+Para compilar:
+```bash
+javac *.java
+```
+
+### ▶️ 3. Ejecutar la aplicación
+Desde la terminal:
+```bash
+java Main.java
+```
+### 🧱 Estructura del proyecto 
+
+El sistema está organizado modularmente para seguir los principios SOLID y facilitar el mantenimiento:
+
+* **📁 `modelos`:** Contiene las clases que representan las entidades del dominio del sistema:
+    * `Usuario`, `Libro`, `Revista`, `Prestamo`, `Reserva`, `RecursoDigital`, etc.
+
+
+* **📁 `gestores`:** Encargados de la lógica de negocio principal:
+    * `GestorUsuario`, `GestorRecursos`, `GestorPrestamos`, `GestorReserva`, etc.
+
+
+* **📁 `servicios`:** Contiene servicios reutilizables como los de envío de notificaciones:
+    * `ServicioNotificacionesEmail`, `ServicioNotificacionesSMS`, etc.
+
+
+* **📁 `alertas`:** Maneja la lógica de alertas automáticas:
+    * `AlertaVencimiento` para préstamos vencidos.
+    * `AlertaDisponibilidad` para recursos reservados que se liberan.
+
+
+* **📁 `consola`:** Interfaz de consola para interacción del usuario:
+    * Menú principal, carga de datos, selección de opciones, generación de reportes, etc.
+
+
+* **📁 `interfaces`:** Contiene interfaces clave del sistema para aplicar el principio ISP:
+    * Ejemplo: `Prestable`, `Renovable`.
+
+
+* **📁 `exepciones`:** Define excepciones personalizadas para validar entradas y manejar errores:
+    * Ejemplo: `RecursoNoDisponibleException`, `UsuarioNoEncontradoException`.
+
+
+* **📁 `enums`:** Enumeraciones usadas en el sistema:
+    * Ejemplo: `CategoriaRecurso`, `EstadoPrestamo`, `PrioridadReserva`.
+
+
+* **📄 `Main.java`:** Punto de entrada del programa. Inicia el menú principal y orquesta los componentes.
+
+
+
+### 🧪 Pruebas por Módulo
+
+Este documento detalla cómo probar cada aspecto del sistema utilizando la interfaz de consola.
+
+#### 👤 Gestión de Usuarios (Menú: 1)
+
+**Añadir usuarios:**
+- Ingresar datos completos: nombre, edad, email, contraseña
+
+**Eliminar usuario:**
+- Eliminar usuario mediante su email
+
+**Buscar usuarios:**
+- Búsqueda por email mostrará la información completa
+- Probará el manejo de excepciones (`UsuarioNoEncontradoException`)
+
+**Listar usuarios:**
+- Muestra registro completo de usuarios
+
+
+#### 📘 Gestión de Recursos (Menú: 2)
+
+**Añadir recursos:**
+- Seleccionar tipo (LIBRO, REVISTA, PODCAST, AUDIOLIBRO)
+- Completar campos específicos según tipo:
+- Libros: título, autor, año, editorial, páginas
+- Revistas: título, editor, número, fecha
+
+**Buscar recursos:**
+- Búsqueda por título, autor, año de publicacion.
+
+**Filtrar recursos:**
+- Por categoría: filtrar solo un tipo específico
+- Por disponibilidad: solo prestables o renovables
+- Por tipo (Prestable o Renoable)
+- Listar todos los recursos
+
+
+### 📖 Gestión de Préstamos (Menú: 3)
+
+**Añadir préstamo:**
+- Seleccionar usuario existente
+- Elegir recurso disponible (debe ser prestable)
+- Asignación automática de fechas (Duracion de 7 dias)
+
+
+**Devolver préstamo:**
+- Seleccionar de la lista de préstamos activos
+- Verificar actualización de disponibilidad del recurso
+- Comprobar activación de alertas si hay reservas pendientes
+
+**Renovar préstamo:**
+- Seleccionar préstamo renovable
+- Verificar extensión de fecha de vencimiento
+
+**Listar préstamos:**
+- Verificar categorización por estado (activos, vencidos, completados)
+- Comprobar actualización automática de estados
+
+### 📌 Gestión de Reservas (Menú: 4)
+
+**Añadir reserva:**
+- Seleccionar recurso no disponible
+- Asignar prioridad (ALTA, MEDIA, BAJA)
+- Verificar posición en cola prioritaria
+
+**Cancelar reserva:**
+- Seleccionar reserva activa del usuario
+- Verificar actualización de estado y reorganización de cola
+
+**Completar reserva:**
+- Cuando un recurso reservado se devuelve
+- Comprobar notificación automática
+- Verificar conversión a préstamo activo
+
+**Mostrar estado de reservas:**
+- Comprobar ordenamiento por prioridad
+- Verificar categorización por estado
+
+### 📊 Reportes (Menú: 5)
+
+**Recursos más prestados:**
+- Verificar conteo y ordenamiento correcto
+- Comprobar formato de presentación
+
+**Usuarios más activos:**
+- Verificar métricas de actividad
+- Comprobar ordenamiento descendente
+
+**Estadísticas por categoría:**
+- Verificar conteo por tipo de recurso
+- Comprobar cálculos porcentuales
 
 ## 📋 Requisitos Adicionales
 

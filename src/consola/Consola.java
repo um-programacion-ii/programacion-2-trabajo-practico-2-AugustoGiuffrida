@@ -38,20 +38,20 @@ public class Consola {
         this.alertaVencimiento = new AlertaVencimiento(prestamos, gestorPrestamos);
 
         //Datos de prueba
-        Date hoy = new Date(); // hoy
-        Date manana = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // mañana
+        //Date hoy = new Date(); // hoy
+        //Date manana = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000); // mañana
 
-        Usuario usuarioTest = new Usuario("Test",33 ,"test@example.com","22222");
-        RecursoDigital recursoTest = new Libro("libro", "pepe", 2000, false, 1000,"genero");
+        //Usuario usuarioTest = new Usuario("Test",33 ,"test@example.com","22222");
+        //RecursoDigital recursoTest = new Libro("libro", "pepe", 2000, false, 1000,"genero");
 
-        usuarios.put(usuarioTest.getEmail(),usuarioTest);
-        recursoDigitalList.add(recursoTest);
+        //usuarios.put(usuarioTest.getEmail(),usuarioTest);
+        //recursoDigitalList.add(recursoTest);
 
-        Prestamo prestamoHoy = new Prestamo(99, recursoTest, usuarioTest, hoy, hoy, estadoPrestamo.ACTIVO);
-        Prestamo prestamoManana = new Prestamo(100, recursoTest, usuarioTest, hoy, manana, estadoPrestamo.ACTIVO);
+        //Prestamo prestamoHoy = new Prestamo(99, recursoTest, usuarioTest, hoy, hoy, estadoPrestamo.ACTIVO);
+        //Prestamo prestamoManana = new Prestamo(100, recursoTest, usuarioTest, hoy, manana, estadoPrestamo.ACTIVO);
 
-        prestamos.add(prestamoHoy);
-        prestamos.add(prestamoManana);
+        //prestamos.add(prestamoHoy);
+        //prestamos.add(prestamoManana);
     }
 
     public void iniciar(){
