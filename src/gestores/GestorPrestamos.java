@@ -1,6 +1,6 @@
 package src.gestores;
 
-import src.AlertaDisponibilidad;
+import src.alertas.AlertaDisponibilidad;
 import src.enums.estadoPrestamo;
 import src.exepciones.RecursoNoDisponibleException;
 import src.exepciones.UsuarioNoEncontradoException;

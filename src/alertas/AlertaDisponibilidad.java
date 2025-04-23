@@ -1,4 +1,4 @@
-package src;
+package src.alertas;
 
 import src.modelos.RecursoDigital;
 import src.modelos.Usuario;
